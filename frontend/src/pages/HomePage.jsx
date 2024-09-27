@@ -3,6 +3,20 @@ import React, { useState } from 'react';
 const HomePage = () => {
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
 
+  // Array of doctor specialties for the categories section
+  const specialties = [
+    { name: 'Cardiology', img: doc1 },
+    { name: 'Dermatology', img: doc2 },
+    { name: 'Pediatrics', img: doc3 },
+    { name: 'Neurology', img: doc4 },
+    { name: 'Orthopedics', img: doc5 },
+    { name: 'Psychiatry', img: doc6 },
+    { name: 'Gynecology', img: doc7 },
+  ];
+
+  // Conditional class to handle the layout
+  const isScrollable = specialties.length > 6;
+
   return (
     <div className="flex h-screen rounded-lg shadow-lg">
       {/* Sidebar */}
