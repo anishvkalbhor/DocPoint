@@ -3,24 +3,10 @@ import React, { useState } from 'react';
 const HomePage = () => {
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
 
-  // Array of doctor specialties for the categories section
-  const specialties = [
-    { name: 'Cardiology', img: doc1 },
-    { name: 'Dermatology', img: doc2 },
-    { name: 'Pediatrics', img: doc3 },
-    { name: 'Neurology', img: doc4 },
-    { name: 'Orthopedics', img: doc5 },
-    { name: 'Psychiatry', img: doc6 },
-    { name: 'Gynecology', img: doc7 },
-  ];
-
-  // Conditional class to handle the layout
-  const isScrollable = specialties.length > 6;
-
   return (
-    <div className="flex h-screen rounded-lg shadow-lg">
+    <div className="flex h-screen">
       {/* Sidebar */}
-      <div className="w-64 bg-gray-800 text-white h-full flex-shrink-0 p-4 rounded-lg shadow-lg">
+      <div className="w-64 bg-gray-800 text-white h-full flex-shrink-0 p-4">
         <h2 className="text-2xl font-bold mb-4">Sidebar</h2>
         <ul>
           <li className="mb-2"><a href="#" className="hover:bg-gray-700 p-2 block">Link 1</a></li>
@@ -31,9 +17,9 @@ const HomePage = () => {
       </div>
 
       {/* Main Content */}
-      <div className="flex-1 h-screen bg-gray-100 p-4 flex items-center justify-center">
+      <div className="flex-1 h-full bg-gray-100 p-4 flex items-center justify-center">
         {/* Banner Section */}
-        <div className="bg-white w-full max-w-6xl rounded-lg shadow-lg flex h-screen">
+        <div className="bg-white w-full max-w-6xl rounded-lg shadow-lg flex h-full">
           {/* Left Side (Text Content) */}
           <div className="w-1/2 p-8 flex flex-col justify-center">
             <div className="mb-4">
