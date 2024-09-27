@@ -1,11 +1,4 @@
 import React, { useState } from 'react';
-import doc1 from '../assets/close-up-health-worker_23-2149112503.png';
-import doc2 from '../assets/confident-medical-practitioners-at-hospital.png';
-import doc3 from '../assets/doctor-preparing-consult.jpg';
-import doc4 from '../assets/friendly-family-doctor-smiling-virology-specialist-white-lab-coat_1121250-404858.png';
-import doc5 from '../assets/happy-diverse-doctors-vertical-view-45221322.png';
-import doc6 from '../assets/man-wearing-white-lab-coat-with-stethoscope-it_1165863-31958.png';
-import doc7 from '../assets/men-doctor-image-white-background-photo_943898-14631.png';
 
 const HomePage = () => {
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
@@ -25,52 +18,57 @@ const HomePage = () => {
   const isScrollable = specialties.length > 6;
 
   return (
-    <div className="min-h-screen bg-gray-100 flex">
+    <div className="flex h-screen rounded-lg shadow-lg">
+      {/* Sidebar */}
+      <div className="w-64 bg-gray-800 text-white h-full flex-shrink-0 p-4 rounded-lg shadow-lg">
+        <h2 className="text-2xl font-bold mb-4">Sidebar</h2>
+        <ul>
+          <li className="mb-2"><a href="#" className="hover:bg-gray-700 p-2 block">Link 1</a></li>
+          <li className="mb-2"><a href="#" className="hover:bg-gray-700 p-2 block">Link 2</a></li>
+          <li className="mb-2"><a href="#" className="hover:bg-gray-700 p-2 block">Link 3</a></li>
+          <li className="mb-2"><a href="#" className="hover:bg-gray-700 p-2 block">Link 4</a></li>
+        </ul>
+      </div>
 
       {/* Main Content */}
-      <div className={`flex-1 p-4 transition-all duration-500 ${isSidebarOpen ? 'ml-64 md:ml-72' : 'ml-0'}`}>
-        
-        {/* Horizontal Banner */}
-        <div
-          className={`relative w-full h-64 bg-cover bg-center mb-8 transition-all duration-500 ${
-            isSidebarOpen ? 'md:w-[calc(100%-16rem)]' : 'md:w-full'
-          }`}
-          style={{ backgroundImage: 'url(https://via.placeholder.com/1600x400)' }}
-        >
-          <div className="absolute inset-0 bg-black opacity-40"></div>
-          <div className="relative z-10 flex items-center justify-center h-full">
-            <h1 className="text-4xl text-white font-bold">Find Your Doctor Today!</h1>
-          </div>
-        </div>
-
-        {/* Doctor Specialties as Circular Tabs */}
-        <h2 className="text-2xl font-bold mb-4 text-purple-900">Browse by Specialties</h2>
-
-        <div
-          className={`w-full flex ${isScrollable ? 'overflow-x-auto space-x-6 pb-4' : 'justify-between'} snap-x snap-mandatory scrollbar-hide`}
-        >
-          <div className="flex space-x-6">
-            {specialties.map((specialty) => (
-              <div
-                key={specialty.name}
-                className="snap-center flex-shrink-0 flex flex-col items-center text-center p-4 bg-white rounded-full shadow-lg transform hover:scale-105 transition-transform duration-300 hover:shadow-xl ring-2 ring-purple-200 hover:ring-purple-600 w-40"
-              >
-                <div className="w-28 h-28 rounded-full bg-purple-100 overflow-hidden mb-3 relative">
-                  <img
-                    src={specialty.img}
-                    alt={specialty.name}
-                    className="object-cover w-full h-full"
-                  />
-                  <div className="absolute inset-0 bg-black opacity-20 hover:opacity-0 transition-opacity"></div>
-                </div>
-                <h3 className="text-lg font-semibold text-purple-900">{specialty.name}</h3>
+      <div className="flex-1 h-screen bg-gray-100 p-4 flex items-center justify-center">
+        {/* Banner Section */}
+        <div className="bg-white w-full max-w-6xl rounded-lg shadow-lg flex h-screen">
+          {/* Left Side (Text Content) */}
+          <div className="w-1/2 p-8 flex flex-col justify-center">
+            <div className="mb-4">
+              <img src="/Co.png" alt="Healthcare Logo" className="w-40 mb-10" />
+              <h1 className="text-6xl font-bold text-[#8891e2] mb-2">
+                Your Health<br />
+                is Our<br />
+                Priority
+              </h1>
+              <p className="text-lg text-gray-700 mb-6">Best healthcare for your family</p>
+            </div>
+            <button className="bg-[#8891e2] text-white px-6 py-3 rounded hover:bg-[#7078d1] mb-9">
+              Book Now
+            </button>
+            <div className="flex items-center">
+              <div className="bg-[#e1e3fb] p-3 rounded-full mr-4">
+                <svg className="w-6 h-6 text-[#8891e2]" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                  <path strokeLinecap="round" strokeLinejoin="round" d="M3 8l7.89-3.47a2 2 0 011.53 0L21 8m-9 4l7.89-3.47M3 16l7.89-3.47a2 2 0 011.53 0L21 16M3 8v8m18-8v8m-9 4l7.89-3.47M3 8l7.89-3.47" />
+                </svg>
               </div>
-            ))}
+              <div>
+                <p className="text-gray-600">Emergency Helpline</p>
+                <p className="text-lg font-bold">+123-456-7890</p>
+              </div>
+            </div>
+          </div>
+
+          {/* Right Side (Image) */}
+          <div className="w-1/2 h-full">
+            <img src="/image.png" alt="Doctors" className="object-cover w-full h-full" />
           </div>
         </div>
       </div>
     </div>
   );
-};
+}
 
 export default HomePage;
