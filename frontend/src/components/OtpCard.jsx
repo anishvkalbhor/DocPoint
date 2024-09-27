@@ -31,7 +31,7 @@ const OtpCard = () => {
 
   useEffect(() => {
     const accessKey = encryptedKey && decryptKey(encryptedKey);
-    if (accessKey === process.env.REACT_APP_ADMIN_PASSKEY) {
+    if (accessKey === import.meta.env.VITE_ADMIN_PASSKEY) {
       setOpen(false);
       navigate("/admin");
     } else {
@@ -46,7 +46,7 @@ const OtpCard = () => {
 
   const validatePasskey = (e) => {
     e.preventDefault();
-    if (passkey === process.env.REACT_APP_ADMIN_PASSKEY) {
+    if (passkey === import.meta.env.VITE_ADMIN_PASSKEY) {
       const encryptedKey = encryptKey(passkey);
       localStorage.setItem("accessKey", encryptedKey);
       setOpen(false);
