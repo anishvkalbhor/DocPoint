@@ -5,15 +5,17 @@ import HomePage from "./pages/HomePage";
 import UserAppointment from "./pages/UserAppointment";
 import DoctorPage from "./pages/DoctorPage";
 import LoginPage from "./pages/LoginPage";
+import AdminDashboard from "./pages/AdminDashboard";
 import { Home, Calendar, LogIn } from "lucide-react";
 import { FaUserDoctor } from "react-icons/fa6";
+import { MdAdminPanelSettings } from "react-icons/md";
 
 const App = () => {
   return (
     <BrowserRouter>
       <header className="flex justify-between items-center bg-gray-100 p-4 shadow-md">
         <div className="flex items-center">
-          <Link to="/" className="text-2xl font-bold">
+          <Link to="/" className="text-2xl font-bold cursor-pointer">
             <span className="text-blue-600">DOC</span>
             <span className="text-gray-800">POINT</span>
           </Link>
@@ -49,6 +51,15 @@ const App = () => {
               </Link>
             </li>
             <li>
+              <Link
+                to="/admin"
+                className="flex items-center text-gray-600 hover:text-blue-600 transition-colors"
+              >
+                <MdAdminPanelSettings className="mr-2" size={20} />
+                <span>Admin</span>
+              </Link>
+            </li>
+            <li>
               <Link to="/login">
                 <Button className="flex items-center bg-blue-600 hover:bg-blue-700 text-white">
                   <LogIn className="mr-2" size={20} />
@@ -65,6 +76,8 @@ const App = () => {
           <Route path="/appointments" element={<UserAppointment />} />
           <Route path="/login" element={<LoginPage />} />
           <Route path="/doctor" element={<DoctorPage />} />
+          <Route path="/admin" element={<AdminDashboard />} />
+
         </Routes>
       </main>
     </BrowserRouter>

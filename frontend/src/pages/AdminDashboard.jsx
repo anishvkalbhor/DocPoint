@@ -1,39 +1,16 @@
-import Image from "next/image";
-import Link from "next/link";
-import React from "react";
-import StatCard from "@/components/StatCard";
-import { getRecentAppointmentList } from "@/lib/actions/appointment.actions";
-import { DataTable } from "@/components/table/DataTable";
-import { columns, Payment } from "@/components/table/columns";
+import React, { useState, useEffect } from "react";
+import { Link } from "react-router-dom";
+
 
 const Admin = () => {
-  const [appointments, setAppointments] = React.useState({
-    scheduledCount: 0,
-    pendingCount: 0,
-    cancelledCount: 0,
-    documents: []
-  });
-
-  React.useEffect(() => {
-    const fetchAppointments = async () => {
-      const data = await getRecentAppointmentList();
-      setAppointments(data);
-    };
-    fetchAppointments();
-  }, []);
-
+  
   return (
     <div className="mx-auto flex max-w-7xl flex-col space-y-14">
       <header className="admin-header">
-        <Link href="/" className="cursor-pointer">
-          <Image
-            src="/assets/icons/qk-logo.svg"
-            height={32}
-            width={162}
-            alt="Logo"
-            className="-mb-4 h-16 w-fit"
-          />
-        </Link>
+      <Link to="/" className="text-2xl font-bold cursor-pointer">
+            <span className="text-blue-600">DOC</span>
+            <span className="text-gray-800">POINT</span>
+          </Link>
         <p className="text-16-semibold">Admin Dashboard</p>
       </header>
 
@@ -45,27 +22,6 @@ const Admin = () => {
           </p>
         </section>
 
-        {/* <section className="admin-stat">
-          <StatCard
-            type="appointments"
-            count={appointments.scheduledCount}
-            label="Scheduled appointments"
-            icon="/assets/icons/appointments.svg"
-          />
-          <StatCard
-            type="pending"
-            count={appointments.pendingCount}
-            label="Pending appointments"
-            icon="/assets/icons/pending.svg"
-          />
-          <StatCard
-            type="cancelled"
-            count={appointments.cancelledCount}
-            label="Cancelled appointments"
-            icon="/assets/icons/cancelled.svg"
-          />
-        </section>
-        <DataTable columns={columns} data={appointments.documents} /> */}
       </main>
     </div>
   );

@@ -9,14 +9,14 @@ import doc7 from '../assets/doctor7.png';
 import doc8 from '../assets/doctor8.png';
 
 const doctors = [
-  { id: 1, name: 'Dr. Alice', specialty: 'Cardiologist', fee: 500, img: doc1 },
-  { id: 2, name: 'Dr. Bob', specialty: 'Dermatologist', fee: 400, img: doc2 },
+  { id: 1, name: 'Dr. Alice', specialty: 'Cardiology', fee: 500, img: doc1 },
+  { id: 2, name: 'Dr. Bob', specialty: 'Dermatology', fee: 400, img: doc2 },
   { id: 3, name: 'Dr. Charlie', specialty: 'Pediatrics', fee: 450, img: doc3 },
-  { id: 4, name: 'Dr. Diana', specialty: 'Neurologist', fee: 600, img: doc4 },
+  { id: 4, name: 'Dr. Diana', specialty: 'Neurology', fee: 600, img: doc4 },
   { id: 5, name: 'Dr. Emma', specialty: 'Orthopedics', fee: 550, img: doc5 },
-  { id: 6, name: 'Dr. Frank', specialty: 'Psychiatrist', fee: 350, img: doc6 },
-  { id: 7, name: 'Dr. Grace', specialty: 'Gynecologist', fee: 500, img: doc7 },
-  { id: 8, name: 'Dr. Drake', specialty: 'Neurologist', fee: 500, img: doc8 },
+  { id: 6, name: 'Dr. Frank', specialty: 'Psychiatry', fee: 350, img: doc6 },
+  { id: 7, name: 'Dr. Grace', specialty: 'Gynecology', fee: 500, img: doc7 },
+  { id: 8, name: 'Dr. Drake', specialty: 'Neurology', fee: 500, img: doc8 },
 ];
 
 const specialties = ['All', 'Cardiology', 'Dermatology', 'Pediatrics', 'Neurology', 'Orthopedics', 'Psychiatry', 'Gynecology'];
