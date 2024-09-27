@@ -32,7 +32,7 @@ const HomePage = () => {
         
         {/* Horizontal Banner */}
         <div
-          className={`relative w-full h-64 bg-cover bg-center mb-8 transition-all duration-500 ${
+          className={`relative w-full h-[40%] bg-cover bg-center mb-8 transition-all duration-500 ${
             isSidebarOpen ? 'md:w-[calc(100%-16rem)]' : 'md:w-full'
           }`}
           style={{ backgroundImage: 'url(https://via.placeholder.com/1600x400)' }}
@@ -44,7 +44,7 @@ const HomePage = () => {
         </div>
 
         {/* Doctor Specialties as Circular Tabs */}
-        <h2 className="text-2xl font-bold mb-4 text-purple-900">Browse by Specialties</h2>
+        <h2 className="text-4xl text-center font-bold font-bold mb-4 text-purple-900">Browse by Specialties</h2>
 
         <div
           className={`w-full flex ${isScrollable ? 'overflow-x-auto space-x-6 pb-4' : 'justify-between'} snap-x snap-mandatory scrollbar-hide`}
