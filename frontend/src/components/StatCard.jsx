@@ -1,28 +1,26 @@
-import clsx from "clsx";
 import React from "react";
-import Image from "next/image";
+import { Card, CardContent } from "@/components/ui/card";
+import { cn } from "@/lib/utils";
 
 const StatCard = ({ count = 0, label, icon, type }) => {
   return (
-    <div
-      className={clsx("stat-card", {
+    <Card
+      className={cn("stat-card", {
         "bg-appointments": type === "appointments",
         "bg-pending": type === "pending",
         "bg-cancelled": type === "cancelled",
       })}
     >
-      <div className="flex items-center gap-4">
-        <Image
-          src={icon}
-          height={32}
-          width={32}
-          alt={label}
-          className="size-8 w-fit"
-        />
-        <h2 className="text-32-bold text-white">{count}</h2>
-      </div>
-      <p className="text-14-regular">{label}</p>
-    </div>
+      <CardContent className="p-4">
+        <div className="flex items-center gap-4">
+          <div className="w-8 h-8">
+            {React.cloneElement(icon, { className: "w-full h-full" })}
+          </div>
+          <h2 className="text-3xl font-bold text-white">{count}</h2>
+        </div>
+        <p className="text-sm">{label}</p>
+      </CardContent>
+    </Card>
   );
 };
 

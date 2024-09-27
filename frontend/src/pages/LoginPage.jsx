@@ -41,16 +41,16 @@ export default function LoginPage() {
           transition={{ duration: 0.8, ease: "easeOut" }}
           className="w-full lg:w-1/2 lg:pr-12 flex flex-col justify-center mb-8 lg:mb-0"
         >
-          <h1 className="text-3xl lg:text-4xl font-bold text-[#8891e2] mb-4 lg:mb-6">Welcome Back!</h1>
-          <p className="text-lg lg:text-xl text-gray-600 mb-6 lg:mb-10">We're excited to see you again. Login to access your personalized healthcare experience.</p>
+          <h1 className="text-2xl lg:text-3xl font-bold text-[#8891e2] mb-4">Welcome Back!</h1>
+          <p className="text-base lg:text-lg text-gray-600 mb-6">We're excited to see you again. Login to access your personalized healthcare experience.</p>
           <Card className="w-full shadow-lg">
             <CardHeader className="pb-6">
-              <CardTitle className="text-[#8891e2] text-xl lg:text-2xl">Login</CardTitle>
-              <CardDescription className="text-sm lg:text-base">Enter your credentials to access your account</CardDescription>
+              <CardTitle className="text-[#8891e2] text-lg lg:text-xl">Login</CardTitle>
+              <CardDescription className="text-sm">Enter your credentials to access your account</CardDescription>
             </CardHeader>
             <CardContent className="pb-8">
               <form>
-                <div className="space-y-4 lg:space-y-6">
+                <div className="space-y-4">
                   <div className="relative">
                     <Label htmlFor="email" className="mb-2 block">Email</Label>
                     <div className="relative">
@@ -68,31 +68,35 @@ export default function LoginPage() {
                 </div>
               </form>
             </CardContent>
-            <CardFooter className="flex-col space-y-4 lg:space-y-6 pt-2">
-              <Button className="w-full bg-[#8891e2] hover:bg-[#7a82d9] py-2 text-base lg:text-lg">Log in</Button>
+            <CardFooter className="flex-col space-y-6 pt-4">
+              <Button className="w-full h-12 bg-[#8891e2] hover:bg-[#7a82d9] py-3 text-lg font-semibold transition-all duration-300 shadow-md hover:shadow-lg rounded-md">
+                Log in
+              </Button>
               <Tabs defaultValue="patient" className="w-full" onValueChange={handleTabChange}>
-                <TabsList className="grid w-full grid-cols-3 gap-2">
-                  <TabsTrigger value="patient" className="py-1 lg:py-2 text-sm lg:text-base">
-                    <FaUserInjured className="mr-1 lg:mr-2" />
+                <TabsList className="grid w-full grid-cols-3 gap-4 bg-gray-100 p-2 rounded-lg h-14">
+                  <TabsTrigger value="patient" className="py-2 text-sm font-medium transition-all duration-300 data-[state=active]:bg-white data-[state=active]:text-[#8891e2] data-[state=active]:shadow-md rounded-md">
+                    <FaUserInjured className="mr-2 text-lg" />
                     Patient
                   </TabsTrigger>
-                  <TabsTrigger value="admin" className="py-1 lg:py-2 text-sm lg:text-base">
-                    <FaUserCog className="mr-1 lg:mr-2" />
-                    Admin
-                  </TabsTrigger>
-                  <TabsTrigger value="doctor" className="py-1 lg:py-2 text-sm lg:text-base">
-                    <FaUserMd className="mr-1 lg:mr-2" />
+                  <TabsTrigger value="doctor" className="py-2 text-sm font-medium transition-all duration-300 data-[state=active]:bg-white data-[state=active]:text-[#8891e2] data-[state=active]:shadow-md rounded-md">
+                    <FaUserMd className="mr-2 text-lg" />
                     Doctor
                   </TabsTrigger>
+                  <TabsTrigger value="admin" className="py-2 text-sm font-medium transition-all duration-300 data-[state=active]:bg-white data-[state=active]:text-[#8891e2] data-[state=active]:shadow-md rounded-md">
+                    <FaUserCog className="mr-2 text-lg" />
+                    Admin
+                  </TabsTrigger>
                 </TabsList>
-                <TabsContent value="admin">
-                  {showOtpCard && <OtpCard />}
+                <TabsContent value="admin" className="mt-6">
+                  {showOtpCard && <OtpCard className="bg-white shadow-lg rounded-lg p-6" />}
                 </TabsContent>
               </Tabs>
-              <p className="text-xs lg:text-sm text-gray-600 pt-2">
-                Don't have an account? <a href="/signup" className="text-[#8891e2] hover:underline">Sign up</a>
-              </p>
             </CardFooter>
+            <div className="bg-gray-50 p-6 mt-6 rounded-b-lg">
+              <p className="text-sm text-gray-600">
+                Don't have an account? <a href="/signup" className="text-[#8891e2] hover:underline font-medium">Sign up</a>
+              </p>
+            </div>
           </Card>
         </motion.section>
         <AnimatePresence mode="wait">
