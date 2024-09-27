@@ -1,11 +1,26 @@
-import React, { useState } from 'react'
+import React, { useState } from 'react';
 
 const HomePage = () => {
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
 
+  // Array of doctor specialties for the categories section
+  const specialties = [
+    { name: 'Cardiology', img: doc1 },
+    { name: 'Dermatology', img: doc2 },
+    { name: 'Pediatrics', img: doc3 },
+    { name: 'Neurology', img: doc4 },
+    { name: 'Orthopedics', img: doc5 },
+    { name: 'Psychiatry', img: doc6 },
+    { name: 'Gynecology', img: doc7 },
+  ];
+
+  // Conditional class to handle the layout
+  const isScrollable = specialties.length > 6;
+
   return (
-    <div className="flex">
-      <div className={`fixed inset-0 z-30 transition-transform transform ${isSidebarOpen ? 'translate-x-0' : '-translate-x-full'} md:relative md:translate-x-0 w-64 h-screen bg-gray-800 text-white p-4`}>
+    <div className="flex h-screen rounded-lg shadow-lg">
+      {/* Sidebar */}
+      <div className="w-64 bg-gray-800 text-white h-full flex-shrink-0 p-4 rounded-lg shadow-lg">
         <h2 className="text-2xl font-bold mb-4">Sidebar</h2>
         <ul>
           <li className="mb-2"><a href="#" className="hover:bg-gray-700 p-2 block">Link 1</a></li>
@@ -14,17 +29,46 @@ const HomePage = () => {
           <li className="mb-2"><a href="#" className="hover:bg-gray-700 p-2 block">Link 4</a></li>
         </ul>
       </div>
-      <div className="flex-1 p-4 ml-64 md:ml-0">
-        <button className="md:hidden mb-4" onClick={() => setIsSidebarOpen(!isSidebarOpen)}>
-          {isSidebarOpen ? 'Close Sidebar' : 'Open Sidebar'}
-        </button>
-        <button className="fixed top-4 left-4 md:hidden" onClick={() => setIsSidebarOpen(true)}>
-          &#x2192; {/* Right arrow */}
-        </button>
-        HomePage
+
+      {/* Main Content */}
+      <div className="flex-1 h-screen bg-gray-100 p-4 flex items-center justify-center">
+        {/* Banner Section */}
+        <div className="bg-white w-full max-w-6xl rounded-lg shadow-lg flex h-screen">
+          {/* Left Side (Text Content) */}
+          <div className="w-1/2 p-8 flex flex-col justify-center">
+            <div className="mb-4">
+              <img src="/Co.png" alt="Healthcare Logo" className="w-40 mb-10" />
+              <h1 className="text-6xl font-bold text-[#8891e2] mb-2">
+                Your Health<br />
+                is Our<br />
+                Priority
+              </h1>
+              <p className="text-lg text-gray-700 mb-6">Best healthcare for your family</p>
+            </div>
+            <button className="bg-[#8891e2] text-white px-6 py-3 rounded hover:bg-[#7078d1] mb-9">
+              Book Now
+            </button>
+            <div className="flex items-center">
+              <div className="bg-[#e1e3fb] p-3 rounded-full mr-4">
+                <svg className="w-6 h-6 text-[#8891e2]" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                  <path strokeLinecap="round" strokeLinejoin="round" d="M3 8l7.89-3.47a2 2 0 011.53 0L21 8m-9 4l7.89-3.47M3 16l7.89-3.47a2 2 0 011.53 0L21 16M3 8v8m18-8v8m-9 4l7.89-3.47M3 8l7.89-3.47" />
+                </svg>
+              </div>
+              <div>
+                <p className="text-gray-600">Emergency Helpline</p>
+                <p className="text-lg font-bold">+123-456-7890</p>
+              </div>
+            </div>
+          </div>
+
+          {/* Right Side (Image) */}
+          <div className="w-1/2 h-full">
+            <img src="/image.png" alt="Doctors" className="object-cover w-full h-full" />
+          </div>
+        </div>
       </div>
     </div>
-  )
+  );
 }
 
-export default HomePage
+export default HomePage;
