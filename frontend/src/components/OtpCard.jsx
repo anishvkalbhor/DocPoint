@@ -41,7 +41,7 @@ const OtpCard = () => {
 
   const closeModal = () => {
     setOpen(false);
-    navigate("/");
+    navigate("/login");
   };
 
   const validatePasskey = (e) => {
@@ -58,15 +58,15 @@ const OtpCard = () => {
 
   return (
     <AlertDialog open={open} onOpenChange={setOpen}>
-      <AlertDialogContent className="shad-alert-dialog">
+      <AlertDialogContent className="shad-alert-dialog max-w-md">
         <AlertDialogHeader>
-          <AlertDialogTitle className="flex items-start justify-between">
-            Admin Access Verification
+          <AlertDialogTitle className="flex items-center justify-between">
+            <span className="text-2xl font-bold">Admin Access</span>
             <Button
               variant="ghost"
               size="icon"
               onClick={closeModal}
-              className="cursor-pointer"
+              className="hover:bg-gray-200 rounded-full transition-colors duration-200"
             >
               <span className="sr-only">Close</span>
               <svg
@@ -85,27 +85,24 @@ const OtpCard = () => {
               </svg>
             </Button>
           </AlertDialogTitle>
-          <AlertDialogDescription>
-            To access the Admin page, please enter the passkey
+          <AlertDialogDescription className="text-center text-gray-600 mt-2">
+            Enter the 6-digit passkey to access the Admin page
           </AlertDialogDescription>
         </AlertDialogHeader>
-        <div>
+        <div className="my-8">
           <InputOTP
             maxLength={6}
             value={passkey}
             onChange={(value) => setPasskey(value)}
           >
-            <InputOTPGroup className="shad-otp">
-              <InputOTPSlot className="shad-otp-slot" index={0} />
-              <InputOTPSlot className="shad-otp-slot" index={1} />
-              <InputOTPSlot className="shad-otp-slot" index={2} />
-              <InputOTPSlot className="shad-otp-slot" index={3} />
-              <InputOTPSlot className="shad-otp-slot" index={4} />
-              <InputOTPSlot className="shad-otp-slot" index={5} />
+            <InputOTPGroup className="shad-otp gap-3 justify-center">
+              {[...Array(6)].map((_, index) => (
+                <InputOTPSlot key={index} className="shad-otp-slot w-14 h-14 text-xl font-semibold border-2 rounded-md focus:ring-2 focus:ring-blue-500 transition-all duration-200" index={index} />
+              ))}
             </InputOTPGroup>
           </InputOTP>
           {error && (
-            <p className="shad-error text-14-regular mt-4 flex justify-center">
+            <p className="shad-error text-14-regular mt-4 text-center text-red-500">
               {error}
             </p>
           )}
@@ -113,9 +110,9 @@ const OtpCard = () => {
         <AlertDialogFooter>
           <AlertDialogAction
             onClick={validatePasskey}
-            className="shad-primary-btn w-full"
+            className="shad-primary-btn w-full py-3 text-lg font-semibold rounded-lg transition-all duration-200 hover:bg-opacity-90 hover:shadow-md"
           >
-            Enter admin passkey
+            Verify Passkey
           </AlertDialogAction>
         </AlertDialogFooter>
       </AlertDialogContent>
