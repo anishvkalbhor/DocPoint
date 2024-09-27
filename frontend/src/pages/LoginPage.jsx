@@ -32,25 +32,25 @@ export default function LoginPage() {
   };
 
   return (
-    <div className="flex h-screen max-h-screen bg-white">
+    <div className="flex flex-col lg:flex-row min-h-screen bg-white">
       
-      <div className="flex w-full max-w-7xl mx-auto px-6">
+      <div className="flex flex-col lg:flex-row w-full max-w-7xl mx-auto px-4 lg:px-6 py-8 lg:py-0">
         <motion.section 
           initial={{ opacity: 0, x: -20 }}
           animate={{ opacity: 1, x: 0 }}
           transition={{ duration: 0.8, ease: "easeOut" }}
-          className="w-1/2 pr-12 flex flex-col justify-center"
+          className="w-full lg:w-1/2 lg:pr-12 flex flex-col justify-center mb-8 lg:mb-0"
         >
-          <h1 className="text-4xl font-bold text-[#8891e2] mb-6">Welcome Back!</h1>
-          <p className="text-xl text-gray-600 mb-10">We're excited to see you again. Login to access your personalized healthcare experience.</p>
+          <h1 className="text-3xl lg:text-4xl font-bold text-[#8891e2] mb-4 lg:mb-6">Welcome Back!</h1>
+          <p className="text-lg lg:text-xl text-gray-600 mb-6 lg:mb-10">We're excited to see you again. Login to access your personalized healthcare experience.</p>
           <Card className="w-full shadow-lg">
             <CardHeader className="pb-6">
-              <CardTitle className="text-[#8891e2] text-2xl">Login</CardTitle>
-              <CardDescription className="text-base">Enter your credentials to access your account</CardDescription>
+              <CardTitle className="text-[#8891e2] text-xl lg:text-2xl">Login</CardTitle>
+              <CardDescription className="text-sm lg:text-base">Enter your credentials to access your account</CardDescription>
             </CardHeader>
             <CardContent className="pb-8">
               <form>
-                <div className="space-y-6">
+                <div className="space-y-4 lg:space-y-6">
                   <div className="relative">
                     <Label htmlFor="email" className="mb-2 block">Email</Label>
                     <div className="relative">
@@ -68,20 +68,20 @@ export default function LoginPage() {
                 </div>
               </form>
             </CardContent>
-            <CardFooter className="flex-col space-y-6 pt-2">
-              <Button className="w-full bg-[#8891e2] hover:bg-[#7a82d9] py-2 text-lg">Log in</Button>
+            <CardFooter className="flex-col space-y-4 lg:space-y-6 pt-2">
+              <Button className="w-full bg-[#8891e2] hover:bg-[#7a82d9] py-2 text-base lg:text-lg">Log in</Button>
               <Tabs defaultValue="patient" className="w-full" onValueChange={handleTabChange}>
                 <TabsList className="grid w-full grid-cols-3 gap-2">
-                  <TabsTrigger value="patient" className="py-2">
-                    <FaUserInjured className="mr-2" />
+                  <TabsTrigger value="patient" className="py-1 lg:py-2 text-sm lg:text-base">
+                    <FaUserInjured className="mr-1 lg:mr-2" />
                     Patient
                   </TabsTrigger>
-                  <TabsTrigger value="admin" className="py-2">
-                    <FaUserCog className="mr-2" />
+                  <TabsTrigger value="admin" className="py-1 lg:py-2 text-sm lg:text-base">
+                    <FaUserCog className="mr-1 lg:mr-2" />
                     Admin
                   </TabsTrigger>
-                  <TabsTrigger value="doctor" className="py-2">
-                    <FaUserMd className="mr-2" />
+                  <TabsTrigger value="doctor" className="py-1 lg:py-2 text-sm lg:text-base">
+                    <FaUserMd className="mr-1 lg:mr-2" />
                     Doctor
                   </TabsTrigger>
                 </TabsList>
@@ -89,7 +89,7 @@ export default function LoginPage() {
                   {showOtpCard && <OtpCard />}
                 </TabsContent>
               </Tabs>
-              <p className="text-sm text-gray-600 pt-2">
+              <p className="text-xs lg:text-sm text-gray-600 pt-2">
                 Don't have an account? <a href="/signup" className="text-[#8891e2] hover:underline">Sign up</a>
               </p>
             </CardFooter>
@@ -102,7 +102,7 @@ export default function LoginPage() {
             animate={{ opacity: 1, x: 0 }}
             exit={{ opacity: 0, x: -20 }}
             transition={{ duration: 0.8, ease: "easeOut" }}
-            className="w-1/2 h-screen flex items-center justify-center ml-12"
+            className="w-full lg:w-1/2 h-64 lg:h-screen hidden lg:flex items-center justify-center lg:ml-12 mt-8 lg:mt-0"
           >
             <img
               src={
