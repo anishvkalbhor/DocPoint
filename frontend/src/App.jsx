@@ -8,7 +8,7 @@ import LoginPage from "./pages/LoginPage";
 import FormPage from "./pages/FormPage";
 import ProfilePage from "./pages/ProfilePage";
 import DoctorForm from "./pages/DoctorForm";
-
+import Calling from "./pages/room";
 import AdminDashboard from "./pages/AdminDashboard";
 import { Home, Calendar, LogIn } from "lucide-react";
 import { FaUserCircle } from "react-icons/fa";
@@ -170,9 +170,10 @@ const App = () => {
 
 
           <Route path="/profile" element={<ProfilePage  />} />
-          <Route path="/registerform" element={<FormPage />} />
+          <Route path="/patientform" element={<FormPage />} />
           <Route path="/doctorform" element={<DoctorForm />} /> 
-
+          <Route path= "/room/:roomId" element={<Calling />} />
+          <Route path= "/main/:roomId" element={<UserAppointment/>} />
 
 
         <Route path="/specialty/cardiology" element={<CardiologyPage />} />
