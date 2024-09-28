@@ -29,11 +29,12 @@ import { AuthProvider ,useAuth } from '@/contexts/authContext'
 
 const firestore = getFirestore();
 const storage = getStorage();
-const navigate = useNavigate();
+
 
 const PatientContent = () => {
   const [isLoading, setIsLoading] = useState(false);
   const { currentUser } = useAuth();
+  const navigate = useNavigate();
 
   const uploadFile = async (file) => {
     if (!file) return null; // If there's no file, return null
