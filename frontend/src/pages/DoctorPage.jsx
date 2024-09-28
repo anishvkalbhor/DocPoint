@@ -150,7 +150,7 @@ const DoctorPage = () => {
                 {doc.fee}
               </p>
               <div className="mt-4 text-center">
-                <Link to={`/doctor/${doc.id}`}>
+                <Link to={`/doctors/${doc.id}`}>
                   <motion.button
                     whileHover={{ scale: 1.05 }}
                     whileTap={{ scale: 0.95 }}
