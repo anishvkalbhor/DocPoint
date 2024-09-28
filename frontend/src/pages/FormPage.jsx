@@ -20,10 +20,28 @@ import { useNavigate } from 'react-router-dom';
 import CustomFormField, { FormFieldType } from "@/components/CustomFormField";
 import SubmitButton from "@/components/SubmitButton";
 import FileUploader from "@/components/FileUploader";
+import { getFirestore, collection, addDoc, doc, setDoc } from 'firebase/firestore';
+import { getStorage , ref, uploadBytes, getDownloadURL  } from 'firebase/storage';
+import { v4 as uuidv4 } from 'uuid';  
+import { AuthProvider ,useAuth } from '@/contexts/authContext'
 
-const RegisterForm = () => {
+
+
+const firestore = getFirestore();
+const storage = getStorage();
+const navigate = useNavigate();
+
+const PatientContent = () => {
   const [isLoading, setIsLoading] = useState(false);
-  const navigate = useNavigate();
+  const { currentUser } = useAuth();
+
+  const uploadFile = async (file) => {
+    if (!file) return null; // If there's no file, return null
+    const storageRef = ref(storage, `identificationDocuments/${uuidv4()}-${file.name}`);  // Generate a unique path
+    await uploadBytes(storageRef, file);  // Upload the file to Firebase Storage
+    const downloadURL = await getDownloadURL(storageRef);  // Get the file's download URL
+    return downloadURL;
+  };
 
   const form = useForm({
     defaultValues: {
@@ -37,38 +55,70 @@ const RegisterForm = () => {
   function onSubmit(values) {
     setIsLoading(true);
     console.log("Form submission started");
+
     
+  
     const requiredFields = [
       'name', 'email', 'phone', 'date', 'gender', 'address', 'occupation',
       'emergencyContactName', 'emergencyContactNumber', 'identificationType',
       'identificationNumber', 'identificationDocument'
     ];
-
+  
     const emptyFields = requiredFields.filter(field => !values[field]);
-
+  
     if (emptyFields.length > 0) {
       console.log("Empty fields detected:", emptyFields);
       toast.error(`Please fill in all required fields: ${emptyFields.join(', ')}`);
       setIsLoading(false);
       return;
     }
-
+  
     console.log("Form values:", values);
-
-    // Simulating an API call
-    setTimeout(() => {
+  
+    const { name, email, phone, date, gender, address, occupation, emergencyContactName, emergencyContactNumber, identificationType, identificationNumber, identificationDocument, ...medicalInfo } = values;
+  
+    // Store patient details in Firestore
+    const savePatient = async () => {
       try {
-        // Simulating a successful submission
-        console.log("Form submitted successfully");
+        const identificationDocumentUrl = await uploadFile(identificationDocument[0]);
+  
+        const userId = currentUser.uid; // Get the user ID from the auth context
+  
+        // Step 3: Add patient details as a subcollection inside users/{userId}/patients
+        const userRef = doc(firestore, "users", userId); // Reference to the specific user document
+        const patientsRef = collection(userRef, "patients"); // Reference to the "patients" subcollection
+  
+        await addDoc(patientsRef, {
+          name: name,
+          email: email,
+          phone: phone,
+          dateOfBirth: date,
+          gender: gender,
+          address: address,
+          occupation: occupation,
+          emergencyContact: {
+            name: emergencyContactName,
+            phone: emergencyContactNumber,
+          },
+          identification: {
+            type: identificationType,
+            number: identificationNumber,
+            documentUrl: identificationDocumentUrl,  // Save the file URL in Firestore
+          },
+        });
+  
+        // Show success message
+        toast.success("Patient registered successfully!");
+        navigate("/");
         setIsLoading(false);
-        toast.success("Registration successful!");
-        navigate('/');
       } catch (error) {
-        console.error("Error submitting form:", error);
+        console.error("Error saving patient data:", error);
         toast.error("An error occurred. Please try again.");
         setIsLoading(false);
       }
-    }, 2000);
+    };
+  
+    savePatient();
   }
 
   return (
@@ -324,4 +374,10 @@ const RegisterForm = () => {
   );
 };
 
-export default RegisterForm;
+export default function FormPage() {
+  return (
+    <AuthProvider>
+      <PatientContent />
+    </AuthProvider>
+  );
+}
