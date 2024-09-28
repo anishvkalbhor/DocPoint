@@ -10,6 +10,7 @@ import { Home, Calendar, LogIn } from "lucide-react";
 import { FaUserCircle } from "react-icons/fa";
 import { FaUserDoctor } from "react-icons/fa6";
 import DoctorDetails from "./pages/DoctorDetails";
+import ProfilePage from "./pages/ProfilePage";
 
 const App = () => {
   const [dropdownOpen, setDropdownOpen] = useState(false);
@@ -139,6 +140,7 @@ const App = () => {
           <Route path="/doctor" element={<DoctorPage />} />
           <Route path="/admin" element={<AdminDashboard />} />
           <Route path="/doctor/:id" element={<DoctorDetails />} />
+          <Route path="/profile" element={<ProfilePage  />} />
         </Routes>
       </main>
     </BrowserRouter>
