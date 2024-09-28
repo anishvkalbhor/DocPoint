@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { Link } from 'react-router-dom';
 import doc1 from '../assets/doctor1.png';
 import doc2 from '../assets/doctor2.png';
 import doc3 from '../assets/doctor3.jpg';
@@ -65,9 +66,12 @@ const DoctorPage = () => {
               <p className="text-center text-gray-700">{doctor.specialty}</p>
               <p className="text-center text-purple-600 font-semibold">₹{doctor.fee}</p>
               <div className="mt-4 text-center">
-                <button className="bg-purple-600 text-white py-2 px-4 rounded-full hover:bg-purple-700 transition duration-300">
-                  Book Appointment
-                </button>
+                {/* Link to the DoctorDetailsPage */}
+                <Link to={`/doctor/${doctor.id}`}>
+                  <button className="bg-purple-600 text-white py-2 px-4 rounded-full hover:bg-purple-700 transition duration-300">
+                    Visit
+                  </button>
+                </Link>
               </div>
             </div>
           ))}
