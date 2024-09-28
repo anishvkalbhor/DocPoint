@@ -13,6 +13,8 @@ import '@fontsource/poppins/400.css'; // Weight 400
 import '@fontsource/poppins/700.css';
 import { useNavigate } from 'react-router-dom';
 
+import MyMap from '../components/MyMap'
+
 const HomePage = () => {
   const navigate = useNavigate();
 
@@ -158,6 +160,10 @@ const HomePage = () => {
               </div>
             </section>
           </div>
+
+          <div>
+          <MyMap />
+        </div>
               {/* Footer */}
       <footer className="bg-gradient-to-b from-indigo-600 to-purple-500 text-white py-5">
         <div className="container mx-auto flex flex-col md:flex-row justify-between items-center">
@@ -177,6 +183,7 @@ const HomePage = () => {
             &copy; {new Date().getFullYear()} DocPoint. All rights reserved.
           </div>
         </div>
+        
       </footer>
     </div>
   );
