@@ -4,7 +4,7 @@
   "version": "0.0.0",
   "type": "module",
   "scripts": {
-    "dev": "vite",
+    "dev": "vite --host",
     "build": "vite build",
     "lint": "eslint .",
     "preview": "vite preview"
@@ -38,6 +38,7 @@
     "react-router-dom": "^6.26.2",
     "react-slick": "^0.30.2",
     "react-toastify": "^10.0.5",
+    "react-transition-group": "^4.4.5",
     "slick-carousel": "^1.8.1",
     "tailwind-merge": "^2.5.2",
     "tailwindcss-animate": "^1.0.7",

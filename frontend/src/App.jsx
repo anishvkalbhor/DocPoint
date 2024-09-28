@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { Button } from "./components/ui/button";
 import { BrowserRouter, Link, Route, Routes } from "react-router-dom";
 import HomePage from "./pages/HomePage";
@@ -9,10 +9,41 @@ import FormPage from "./pages/FormPage";
 
 import AdminDashboard from "./pages/AdminDashboard";
 import { Home, Calendar, LogIn } from "lucide-react";
+import { FaUserCircle } from "react-icons/fa";
 import { FaUserDoctor } from "react-icons/fa6";
+import DoctorDetails from "./pages/DoctorDetails";
 import { MdAdminPanelSettings } from "react-icons/md";
 
 const App = () => {
+  const [dropdownOpen, setDropdownOpen] = useState(false);
+  const [userName, setUserName] = useState("Anish Kalbhor"); // Replace with actual user's name
+  const [isLoggedIn, setIsLoggedIn] = useState(true); // Set to true if user is logged in
+  const dropdownRef = useRef(null); // Ref for dropdown
+
+  const toggleDropdown = () => {
+    setDropdownOpen(!dropdownOpen);
+  };
+
+  const handleLogout = () => {
+    // Implement logout functionality here
+    setIsLoggedIn(false); // Update logged-in status
+    console.log("Logged out");
+  };
+
+  // Close dropdown when clicking outside
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (dropdownOpen && dropdownRef.current && !dropdownRef.current.contains(event.target)) {
+        setDropdownOpen(false);
+      }
+    };
+
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, [dropdownOpen]);
+
   return (
     <BrowserRouter>
       <header className="flex justify-between items-center bg-gray-100 p-4 shadow-md">
@@ -34,14 +65,13 @@ const App = () => {
               </Link>
             </li>
             <li>
-            <Link
-  to="/doctor"
-  className="flex items-center text-gray-600 hover:text-blue-600 transition-colors"
->
-  <FaUserDoctor className="mr-2" size={20} />
-  <span>Doctors</span>
-</Link>
-
+              <Link
+                to="/doctor"
+                className="flex items-center text-gray-600 hover:text-blue-600 transition-colors"
+              >
+                <FaUserDoctor className="mr-2" size={20} />
+                <span>Doctors</span>
+              </Link>
             </li>
             <li>
               <Link
@@ -52,23 +82,55 @@ const App = () => {
                 <span>My Appointments</span>
               </Link>
             </li>
-            <li>
-              <Link
-                to="/admin"
+            <li className="relative" ref={dropdownRef}>
+              <button
+                onClick={toggleDropdown}
                 className="flex items-center text-gray-600 hover:text-blue-600 transition-colors"
               >
-                <MdAdminPanelSettings className="mr-2" size={20} />
-                <span>Admin</span>
-              </Link>
+                <FaUserCircle className="mr-2" size={20} />
+                <span>{userName}</span>
+              </button>
+              {dropdownOpen && (
+                <div className="absolute right-0 mt-2 w-48 bg-white shadow-lg rounded-md z-10">
+                  <ul className="py-2">
+                    <li>
+                      <Link
+                        to="/profile"
+                        className="block px-4 py-2 text-gray-700 hover:bg-gray-100"
+                      >
+                        View Full Profile
+                      </Link>
+                    </li>
+                    <li>
+                      <Link
+                        to="/appointments"
+                        className="block px-4 py-2 text-gray-700 hover:bg-gray-100"
+                      >
+                        My Appointments
+                      </Link>
+                    </li>
+                    <li>
+                      <button
+                        onClick={handleLogout}
+                        className="block w-full text-left px-4 py-2 text-gray-700 hover:bg-gray-100"
+                      >
+                        Logout
+                      </button>
+                    </li>
+                  </ul>
+                </div>
+              )}
             </li>
-            <li>
-              <Link to="/auth/login">
-                <Button className="flex items-center bg-blue-600 hover:bg-blue-700 text-white">
-                  <LogIn className="mr-2" size={20} />
-                  <span>Login</span>
-                </Button>
-              </Link>
-            </li>
+            {!isLoggedIn && (
+              <li>
+                <Link to="/auth/login">
+                  <Button className="flex items-center bg-blue-600 hover:bg-blue-700 text-white">
+                    <LogIn className="mr-2" size={20} />
+                    <span>Login</span>
+                  </Button>
+                </Link>
+              </li>
+            )}
           </ul>
         </nav>
       </header>
@@ -79,6 +141,7 @@ const App = () => {
           <Route path="/auth/login" element={<LoginPage />} />
           <Route path="/doctor" element={<DoctorPage />} />
           <Route path="/admin" element={<AdminDashboard />} />
+          <Route path="/doctor/:id" element={<DoctorDetails />} />
           <Route path="/registerform" element={<FormPage />} /> 
 
 
