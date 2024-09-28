@@ -1,4 +1,5 @@
-import React, { useState, useEffect } from 'react';
+import React from 'react';
+import { Link } from 'react-router-dom'; // Import Link from react-router-dom
 import doc1 from '../assets/doctor1.png';
 import doc2 from '../assets/doctor2.png';
 import doc3 from '../assets/doctor3.jpg';
@@ -24,18 +25,8 @@ const HomePage = () => {
     { name: 'Orthopedics', img: doc5 },
     { name: 'Psychiatry', img: doc6 },
     { name: 'Gynecology', img: doc7 },
+    { name: 'Dentist', img: doc8 },
   ];
-
-  // Slideshow state and logic
-  const [currentSlide, setCurrentSlide] = useState(0);
-
-  // Automatically change slide every 3 seconds
-  useEffect(() => {
-    const interval = setInterval(() => {
-      setCurrentSlide((prevSlide) => (prevSlide + 1) % specialties.length);
-    }, 3000); // Change slide every 3 seconds
-    return () => clearInterval(interval);
-  }, [specialties.length]);
 
   return (
     <div>
@@ -43,7 +34,7 @@ const HomePage = () => {
       <div
         className="flex flex-col md:flex-row min-h-screen bg-cover bg-center"
         style={{
-          backgroundImage: "url('/bckground.png')",
+          backgroundImage: "url('/bckground.png')", // Adjust the image path as needed
           backgroundSize: 'cover',
         }}
       >
@@ -136,10 +127,10 @@ const HomePage = () => {
             {/* Doctor Specialties Circular Cards */}
             <section className="container mx-auto">
               <h2 className="text-center text-3xl md:text-4xl font-semibold mb-10">Explore Our Medical Specialties</h2>
-
+          
               <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-8">
                 {specialties.map((specialty, index) => (
-                  <div key={index} className="relative bg-white rounded-lg shadow-lg overflow-hidden group transition-transform duration-300 transform hover:scale-105">
+                  <Link key={index} to={`/specialty/${specialty.name}`} className="relative bg-white rounded-lg shadow-lg overflow-hidden group transition-transform duration-300 transform hover:scale-105">
                     <div className="w-full h-32 overflow-hidden">
                       <img
                         src={specialty.img}
@@ -151,7 +142,7 @@ const HomePage = () => {
                     <div className="absolute inset-0 flex items-center justify-center bg-black bg-opacity-40 transition-opacity duration-300 group-hover:opacity-0">
                       <h3 className="text-white text-xl font-bold">{specialty.name}</h3>
                     </div>
-                  </div>
+                  </Link>
                 ))}
               </div>
             </section>

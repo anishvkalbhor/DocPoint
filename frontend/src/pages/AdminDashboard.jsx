@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import StatCard from "@/components/StatCard";
-import DataTable  from "@/components/DataTable";
+import DataTable from "@/components/DataTable";
 import { columns } from "@/components/columns";
 
 const Admin = () => {
@@ -11,8 +11,7 @@ const Admin = () => {
     const fetchAppointments = async () => {
       try {
         const data = await getDocs(query(collection(db, "appointments"), orderBy("date", "desc"), limit(10)));
-        const appointmentList = data.docs.map(doc => ({ id: doc.id, ...doc.data() }));        
-        setAppointments(data);
+        const appointmentList = data.docs.map(doc => ({ id: doc.id, ...doc.data() }));        setAppointments(data);
       } catch (error) {
         console.error("Error fetching appointments:", error);
       }
