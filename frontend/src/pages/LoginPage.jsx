@@ -94,7 +94,7 @@ export default function LoginPage() {
             </CardFooter>
             <div className="bg-gray-50 p-6 mt-6 rounded-b-lg">
               <p className="text-sm text-gray-600">
-                Don't have an account? <a href="/signup" className="text-[#8891e2] hover:underline font-medium">Sign up</a>
+                Don't have an account? <a href="/auth/signup" className="text-[#8891e2] hover:underline font-medium">Sign up</a>
               </p>
             </div>
           </Card>

@@ -11,7 +11,7 @@ app.use(express.json());
 
 app.use('/appointments', authMiddleware, appointmentRoutes);
 app.use('/auth', authRoutes);
-app.use('/doctors', doctorRoutes);
+app.use('/doctor', doctorRoutes);
 app.use('/users', authMiddleware, userRoutes);
 
 module.exports = app;
