@@ -5,18 +5,20 @@ import HomePage from "./pages/HomePage";
 import UserAppointment from "./pages/UserAppointment";
 import DoctorPage from "./pages/DoctorPage";
 import LoginPage from "./pages/LoginPage";
+import FormPage from "./pages/FormPage";
+
 import AdminDashboard from "./pages/AdminDashboard";
 import { Home, Calendar, LogIn } from "lucide-react";
 import { FaUserCircle } from "react-icons/fa";
 import { FaUserDoctor } from "react-icons/fa6";
 import DoctorDetails from "./pages/DoctorDetails";
-import ProfilePage from "./pages/ProfilePage";
+import { MdAdminPanelSettings } from "react-icons/md";
 
 const App = () => {
   const [dropdownOpen, setDropdownOpen] = useState(false);
-  const [userName, setUserName] = useState("Anish Kalbhor"); // Replace with actual user's name
-  const [isLoggedIn, setIsLoggedIn] = useState(true); // Set to true if user is logged in
-  const dropdownRef = useRef(null); // Ref for dropdown
+  const [userName, setUserName] = useState("Anish Kalbhor"); 
+  const [isLoggedIn, setIsLoggedIn] = useState(true); 
+  const dropdownRef = useRef(null); 
 
   const toggleDropdown = () => {
     setDropdownOpen(!dropdownOpen);
@@ -141,6 +143,7 @@ const App = () => {
           <Route path="/admin" element={<AdminDashboard />} />
           <Route path="/doctor/:id" element={<DoctorDetails />} />
           <Route path="/profile" element={<ProfilePage  />} />
+          <Route path="/registerform" element={<FormPage />} />
         </Routes>
       </main>
     </BrowserRouter>

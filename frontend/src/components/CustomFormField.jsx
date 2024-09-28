@@ -1,7 +1,5 @@
-"use client";
 import React from "react";
-import { E164Number } from "libphonenumber-js/core";
-import { Control, useForm } from "react-hook-form";
+import { Controller, useForm } from "react-hook-form";
 import { Button } from "@/components/ui/button";
 import {
   Form,
@@ -13,7 +11,6 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
-import Image from "next/image";
 import "react-phone-number-input/style.css";
 import PhoneInput from "react-phone-number-input";
 
@@ -23,8 +20,9 @@ import "react-datepicker/dist/react-datepicker.css";
 import { Select, SelectContent, SelectTrigger, SelectValue } from "./ui/select";
 import { Textarea } from "./ui/textarea";
 import { Checkbox } from "./ui/checkbox";
+import { FaCalendarAlt } from "react-icons/fa";
 
-const FormFieldType = {
+export const FormFieldType = {
   INPUT: "input",
   TEXTAREA: "textarea",
   PHONE_INPUT: "phoneInput",
@@ -50,21 +48,21 @@ const RenderField = ({ field, props }) => {
   switch (fieldType) {
     case FormFieldType.INPUT:
       return (
-        <div className="flex rounded-md border border-dark-500 bg-dark-400">
+        <div className="flex rounded-md border border-dark-500 bg-dark-400 focus-within:ring-2 focus-within:ring-violet-500 transition-all duration-200 shadow-sm hover:shadow-md">
           {iconSrc && (
-            <Image
+            <img
               src={iconSrc}
               alt={iconAlt || "icon"}
               height={24}
               width={24}
-              className="ml-2"
+              className="ml-2 my-auto"
             />
           )}
           <FormControl>
             <Input
               placeholder={placeholder}
               {...field}
-              className="shad-input border-0"
+              className="shad-input border-0 focus:ring-0 py-2 px-3"
             />
           </FormControl>
         </div>
@@ -76,13 +74,14 @@ const RenderField = ({ field, props }) => {
           <Textarea
             placeholder={placeholder}
             {...field}
-            className="shad-textArea "
+            className="shad-textArea focus:ring-2 focus:ring-violet-500 transition-all duration-200 shadow-sm hover:shadow-md resize-none"
             disabled={props.disabled}
           />
         </FormControl>
       );
     case FormFieldType.PHONE_INPUT:
       return (
+        <div className="flex rounded-md bg-dark-400 p-2 focus-within:ring-2 focus-within:ring-violet-500 transition-all duration-200 shadow-sm hover:shadow-md">
         <FormControl>
           <PhoneInput
             defaultCountry="IN"
@@ -91,21 +90,16 @@ const RenderField = ({ field, props }) => {
             withCountryCallingCode
             value={field.value}
             onChange={field.onChange}
-            className="input-phone"
-          />
+            className="input-phone focus:outline-none w-full"
+            />
         </FormControl>
+        </div>
       );
 
     case FormFieldType.DATE_PICKER:
       return (
-        <div className="flex rounded-md border border-dark-500 bg-dark-400">
-          <Image
-            src="/assets/icons/calendar.svg"
-            height={24}
-            width={24}
-            alt="calendar"
-            className="ml-2"
-          />
+        <div className="flex rounded-md border border-dark-500 bg-dark-400 focus-within:ring-2 focus-within:ring-violet-500 transition-all duration-200 shadow-sm hover:shadow-md">
+          <FaCalendarAlt className="text-violet-500 ml-2 my-auto" />
           <FormControl>
             <DatePicker
               selected={field.value}
@@ -113,7 +107,8 @@ const RenderField = ({ field, props }) => {
               dateFormat={dateFormat ?? "MM/dd/yyyy"}
               showTimeSelect={showTimeSelect ?? false}
               timeInputLabel="Time:"
-              wrapperClassName="date-picker"
+              wrapperClassName="date-picker w-full"
+              className="focus:outline-none py-2 px-3 w-full"
             />
           </FormControl>
         </div>
@@ -127,7 +122,7 @@ const RenderField = ({ field, props }) => {
         <FormControl>
           <Select onValueChange={field.onChange} defaultValue={field.value}>
             <FormControl>
-              <SelectTrigger className="shad-select-trigger">
+              <SelectTrigger className="shad-select-trigger focus:ring-2 focus:ring-violet-500 transition-all duration-200 shadow-sm hover:shadow-md">
                 <SelectValue placeholder={placeholder} />
               </SelectTrigger>
             </FormControl>
@@ -146,8 +141,9 @@ const RenderField = ({ field, props }) => {
               id={props.name}
               checked={field.value}
               onCheckedChange={field.onChange}
+              className="focus:ring-2 focus:ring-violet-500 transition-all duration-200 w-5 h-5"
             />
-            <label htmlFor={props.name} className="checkbox-label">
+            <label htmlFor={props.name} className="checkbox-label text-sm font-medium">
               {props.label}
             </label>
           </div>
@@ -166,13 +162,13 @@ const CustomFormField = (props) => {
       control={control}
       name={name}
       render={({ field }) => (
-        <FormItem className="flex-1">
+        <FormItem className="flex-1 space-y-2">
           {fieldType !== FormFieldType.CHECKBOX && label && (
-            <FormLabel>{label}</FormLabel>
+            <FormLabel className="text-sm font-medium">{label}</FormLabel>
           )}
 
           <RenderField field={field} props={props} />
-          <FormMessage className="shad-error" />
+          <FormMessage className="shad-error text-xs" />
         </FormItem>
       )}
     />

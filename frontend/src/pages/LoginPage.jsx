@@ -15,6 +15,13 @@ import { useNavigate } from 'react-router-dom'
 import { toast, ToastContainer } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css'
 
+import { getFirestore, doc, getDoc, setDoc } from "firebase/firestore";
+import { getAuth, signInWithEmailAndPassword, signInWithPopup, GoogleAuthProvider } from "firebase/auth";
+
+// Initialize Firestore and Firebase Auth
+const firestore = getFirestore();
+const auth = getAuth();
+
 function LoginPageContent() {
   const { userLoggedIn } = useAuth();
   const [email, setEmail] = useState('')
@@ -47,16 +54,35 @@ function LoginPageContent() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     setIsLoading(true);
-
+  
     try {
       if (isLogin) {
-        await signIn(email, password);
-        toast.success('Logged in successfully!');
-        navigate('/');
+        // Log in user with email and password
+        const userCredential = await signInWithEmailAndPassword(auth, email, password);
+        const user = userCredential.user;
+  
+        if (await userExistsInDB(user.uid)) {
+          toast.success('Logged in successfully!');
+          navigate('/'); // Navigate to home if user already exists
+        } else {
+          toast.success('Logged in successfully!');
+          navigate('/registerform'); // If user doesn't exist, take them to register form
+        }
+  
       } else {
-        await signUp(email, password, name);
+        // Sign up new user
+        const userCredential = await createUserWithEmailAndPassword(auth, email, password);
+        const user = userCredential.user;
+  
+        // Add new user to Firestore
+        await setDoc(doc(firestore, "users", user.uid), {
+          name: name,
+          email: user.email,
+          createdAt: new Date(),
+        });
+  
         toast.success('Signed up successfully!');
-        navigate('/');
+        navigate('/registerform'); // After signup, navigate to register form
       }
     } catch (error) {
       console.error("Error:", error);
@@ -65,19 +91,45 @@ function LoginPageContent() {
       setIsLoading(false);
     }
   };
-
+  
   const handleGoogleSignIn = async () => {
     setIsLoading(true);
+  
     try {
-      await signInWithGoogle();
-      toast.success('Logged in with Google successfully!');
-      navigate('/');
+      // Sign in user with Google
+      const provider = new GoogleAuthProvider();
+      const userCredential = await signInWithPopup(auth, provider);
+      const user = userCredential.user;
+  
+      if (await userExistsInDB(user.uid)) {
+        toast.success('Logged in with Google successfully!');
+        navigate('/'); // Navigate to home if user already exists
+      } else {
+        // Add new Google user to Firestore
+        await setDoc(doc(firestore, "users", user.uid), {
+          name: user.displayName,
+          email: user.email,
+          createdAt: new Date(),
+        });
+  
+        toast.success('Logged in with Google successfully!');
+        navigate('/registerform'); // If user is new, take them to register form
+      }
+  
     } catch (error) {
       console.error("Error signing in with Google:", error);
       toast.error(`Google sign-in failed: ${error.message}`);
     } finally {
       setIsLoading(false);
     }
+  };
+  
+  // Helper function to check if user exists in Firestore DB
+  const userExistsInDB = async (uid) => {
+    const docRef = doc(firestore, "users", uid);
+    const docSnap = await getDoc(docRef);
+  
+    return docSnap.exists(); // Returns true if the document exists, otherwise false
   };
   const toggleAuthMode = () => {
     setIsLogin(!isLogin);

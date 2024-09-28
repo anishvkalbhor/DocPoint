@@ -1,5 +1,6 @@
-import Image from "next/image";
+import React from "react";
 import { Button } from "./ui/button";
+import { AiOutlineLoading3Quarters } from "react-icons/ai";
 
 const SubmitButton = ({ isLoading, className, children }) => {
   return (
@@ -10,13 +11,7 @@ const SubmitButton = ({ isLoading, className, children }) => {
     >
       {isLoading ? (
         <div className="flex items-center gap-4">
-          <Image
-            src="/assets/icons/loader.svg"
-            alt="loader"
-            width={24}
-            height={24}
-            className="animate-spin"
-          />
+          <AiOutlineLoading3Quarters className="animate-spin" size={24} />
           Loading...
         </div>
       ) : (
