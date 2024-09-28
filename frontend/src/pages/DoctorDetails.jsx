@@ -6,9 +6,12 @@ import {
   FaGraduationCap,
   FaBriefcase,
   FaMoneyBillWave,
+  FaClock,
 } from "react-icons/fa";
-import { CSSTransition } from "react-transition-group"; // For drawer animation
-import "react-datepicker/dist/react-datepicker.css"; // Optional if using a date picker package
+import { CSSTransition } from "react-transition-group";
+import "react-datepicker/dist/react-datepicker.css";
+import DatePicker from "react-datepicker";
+import { motion } from "framer-motion";
 import doc1 from "../assets/doctor1.png";
 import doc2 from "../assets/doctor2.png";
 import doc3 from "../assets/doctor3.jpg";
@@ -159,9 +162,8 @@ const DoctorDetails = () => {
   const { id } = useParams();
   const doctor = doctors.find((doc) => doc.id === parseInt(id));
 
-  // States for drawer and form
   const [isOpen, setIsOpen] = useState(false);
-  const [appointmentDate, setAppointmentDate] = useState("");
+  const [appointmentDate, setAppointmentDate] = useState(new Date());
   const [timeSlot, setTimeSlot] = useState("");
   const [reason, setReason] = useState("");
   const [isEmergency, setIsEmergency] = useState(false);
@@ -190,84 +192,63 @@ const DoctorDetails = () => {
   }
 
   return (
-    <div className="min-h-screen bg-gray-100 py-8">
+    <motion.div
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      transition={{ duration: 0.5 }}
+      className="min-h-screen bg-gradient-to-b from-violet-100 to-violet-200 py-12"
+    >
       <div className="container mx-auto px-4">
-        <div className="bg-white p-8 rounded-lg shadow-lg max-w-4xl mx-auto">
-          {/* Doctor Image and Name */}
-          <div className="flex items-center justify-center flex-col">
-            <div className="relative w-48 h-48 mb-4 rounded-full overflow-hidden shadow-xl">
+        <motion.div
+          initial={{ y: 50, opacity: 0 }}
+          animate={{ y: 0, opacity: 1 }}
+          transition={{ duration: 0.5, delay: 0.2 }}
+          className="bg-white p-8 rounded-2xl shadow-2xl max-w-4xl mx-auto"
+        >
+          <div className="flex flex-col md:flex-row items-center justify-center md:space-x-8">
+            <motion.div
+              whileHover={{ scale: 1.05 }}
+              className="relative w-64 h-64 mb-6 md:mb-0 rounded-full overflow-hidden shadow-2xl"
+            >
               <img
                 src={doctor.img}
                 alt={doctor.name}
                 className="w-full h-full object-cover"
               />
-            </div>
-            <h2 className="text-4xl font-bold text-teal-700 mb-2">
-              {doctor.name}
-            </h2>
-            <span className="inline-block bg-teal-600 text-white text-xl px-4 py-1 rounded-full">
-              {doctor.specialty}
-            </span>
-          </div>
-
-          {/* Doctor Info */}
-          <div className="mt-8 grid grid-cols-1 md:grid-cols-2 gap-5">
-            <div className="flex items-center justify-center">
-              <FaGraduationCap className="text-teal-600 text-2xl mr-3" />
-              <div>
-                <p className="font-bold text-lg text-teal-900">Qualification</p>
-                <p className="text-gray-600">{doctor.qualification}</p>
-              </div>
-            </div>
-            <div className="flex items-center justify-center">
-              <FaBriefcase className="text-teal-600 text-2xl mr-3" />
-              <div>
-                <p className="font-bold text-lg text-teal-900">Experience</p>
-                <p className="text-gray-600">{doctor.experience} years</p>
-              </div>
-            </div>
-            <div className="flex items-center justify-center">
-              <FaMapMarkerAlt className="text-teal-600 text-2xl mr-3" />
-              <div>
-                <p className="font-bold text-lg text-teal-900">Location</p>
-                <p className="text-gray-600">{doctor.location}</p>
-              </div>
-            </div>
-            <div className="flex items-center justify-center">
-              <FaPhoneAlt className="text-teal-600 text-2xl mr-3" />
-              <div>
-                <p className="font-bold text-lg text-teal-900">Contact</p>
-                <p className="text-gray-600">{doctor.contact}</p>
-              </div>
-            </div>
-            <div className="flex items-center justify-center">
-              <FaMoneyBillWave className="text-teal-600 text-2xl mr-3" />
-              <div>
-                <p className="font-bold text-lg text-teal-900">
-                  Consultation Fee
-                </p>
-                <p className="text-gray-600">₹{doctor.fee}</p>
-              </div>
-            </div>
-            <div className="col-span-1 md:col-span-2 mt-8">
-              <h3 className="font-bold text-teal-900 text-lg">Summary</h3>
-              <p className="text-gray-600">{doctor.summary}</p>
+            </motion.div>
+            <div className="text-center md:text-left">
+              <h2 className="text-5xl font-bold text-violet-700 mb-2">
+                {doctor.name}
+              </h2>
+              <span className="inline-block bg-violet-600 text-white text-2xl px-6 py-2 rounded-full shadow-md">
+                {doctor.specialty}
+              </span>
+              <p className="mt-4 text-gray-600 text-lg">{doctor.summary}</p>
             </div>
           </div>
 
-          {/* Appointment Booking Button */}
-          <div className="mt-8 text-center">
-            <button
+          <div className="mt-12 grid grid-cols-1 md:grid-cols-3 gap-8">
+            <InfoCard icon={FaGraduationCap} title="Qualification" content={doctor.qualification} />
+            <InfoCard icon={FaBriefcase} title="Experience" content={`${doctor.experience} years`} />
+            <InfoCard icon={FaMapMarkerAlt} title="Location" content={doctor.location} />
+            <InfoCard icon={FaPhoneAlt} title="Contact" content={doctor.contact} />
+            <InfoCard icon={FaMoneyBillWave} title="Consultation Fee" content={`₹${doctor.fee}`} />
+            <InfoCard icon={FaClock} title="Working Hours" content={doctor.hours} />
+          </div>
+
+          <div className="mt-12 text-center">
+            <motion.button
+              whileHover={{ scale: 1.05 }}
+              whileTap={{ scale: 0.95 }}
               onClick={() => setIsOpen(true)}
-              className="bg-purple-500 text-white text-center px-8 py-3 rounded-full hover:bg-purple-600 transition duration-300"
+              className="bg-violet-600 text-white text-xl font-semibold px-10 py-4 rounded-full shadow-lg hover:bg-violet-700 transition duration-300"
             >
               Book Appointment
-            </button>
+            </motion.button>
           </div>
-        </div>
+        </motion.div>
       </div>
 
-      {/* Appointment Drawer */}
       <CSSTransition
         in={isOpen}
         timeout={300}
@@ -275,111 +256,100 @@ const DoctorDetails = () => {
         unmountOnExit
       >
         <div className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center z-50">
-          <div className="bg-white rounded-lg shadow-lg p-6 w-96 relative">
+          <motion.div
+            initial={{ y: 50, opacity: 0 }}
+            animate={{ y: 0, opacity: 1 }}
+            exit={{ y: 50, opacity: 0 }}
+            transition={{ duration: 0.3 }}
+            className="bg-white rounded-2xl shadow-2xl p-8 w-full max-w-md relative"
+          >
             <button
               onClick={() => setIsOpen(false)}
-              className="absolute top-2 right-2 text-purple-600 text-2xl"
+              className="absolute top-4 right-4 text-violet-600 text-3xl hover:text-violet-800"
             >
-              &times;
+              ×
             </button>
-            <h3 className="text-lg font-bold text-teal-900">
+            <h3 className="text-2xl font-bold text-violet-900 mb-6">
               Book Appointment
             </h3>
 
-            {/* Date selection */}
-            <div className="mt-4">
-              <label className="text-teal-900 font-bold">Select Date:</label>
-              <input
-                type="date"
-                className="w-full p-2 border rounded-lg mt-2"
-                value={appointmentDate}
-                onChange={(e) => setAppointmentDate(e.target.value)}
-              />
-            </div>
+            <div className="space-y-6">
+              <div>
+                <label className="text-violet-900 font-semibold block mb-2">Select Date:</label>
+                <DatePicker
+                  selected={appointmentDate}
+                  onChange={(date) => setAppointmentDate(date)}
+                  className="w-full p-3 border rounded-lg focus:ring-2 focus:ring-violet-500"
+                />
+              </div>
 
-            {/* Time slot selection */}
-            <div className="mt-4">
-              <label className="text-teal-900 font-bold">
-                Select Time Slot:
-              </label>
-              <div
-                className="grid grid-cols-2 gap-2 mt-2 max-h-40 overflow-y-auto border rounded-lg p-2" // Added max height and overflow
-                style={{ scrollbarWidth: "thin", scrollbarColor: "gray white" }} // For Firefox
-              >
-                {[
-                  "9:00 AM",
-                  "9:30 AM",
-                  "10:00 AM",
-                  "10:30 AM",
-                  "11:00 AM",
-                  "11:30 AM",
-                  "12:00 PM",
-                  "12:45 PM", // Added break
-                  "1:00 PM",
-                  "1:30 PM",
-                  "2:00 PM",
-                  "2:30 PM",
-                  "3:00 PM",
-                  "3:30 PM",
-                  "4:00 PM",
-                  "4:30 PM",
-                  "5:00 PM",
-                ].map((slot, index) => (
-                  <button
-                    key={index}
-                    className={`w-full p-2 border rounded-lg transition duration-300 ${
-                      timeSlot === slot
-                        ? "bg-purple-500 text-white"
-                        : "bg-gray-200 text-gray-700 hover:bg-gray-300"
-                    }`}
-                    onClick={() => setTimeSlot(slot)}
-                  >
-                    {slot}
-                  </button>
-                ))}
+              <div>
+                <label className="text-violet-900 font-semibold block mb-2">
+                  Select Time Slot:
+                </label>
+                <div className="grid grid-cols-3 gap-2 max-h-48 overflow-y-auto border rounded-lg p-2 scrollable">
+                  {[
+                    "9:00 AM", "9:30 AM", "10:00 AM", "10:30 AM", "11:00 AM", "11:30 AM",
+                    "12:00 PM", "12:45 PM", "1:00 PM", "1:30 PM", "2:00 PM", "2:30 PM",
+                    "3:00 PM", "3:30 PM", "4:00 PM", "4:30 PM", "5:00 PM"
+                  ].map((slot, index) => (
+                    <motion.button
+                      key={index}
+                      whileHover={{ scale: 1.05 }}
+                      whileTap={{ scale: 0.95 }}
+                      className={`w-full p-2 border rounded-lg transition duration-300 ${
+                        timeSlot === slot
+                          ? "bg-violet-500 text-white"
+                          : "bg-gray-100 text-gray-700 hover:bg-gray-200"
+                      }`}
+                      onClick={() => setTimeSlot(slot)}
+                    >
+                      {slot}
+                    </motion.button>
+                  ))}
+                </div>
+              </div>
+
+              <div>
+                <label className="text-violet-900 font-semibold block mb-2">
+                  Reason for Appointment:
+                </label>
+                <textarea
+                  className="w-full p-3 border rounded-lg focus:ring-2 focus:ring-violet-500"
+                  rows="4"
+                  placeholder="Describe the reason for your appointment"
+                  value={reason}
+                  onChange={(e) => setReason(e.target.value)}
+                />
+              </div>
+
+              <div className="flex items-center">
+                <input
+                  type="checkbox"
+                  className="w-5 h-5 mr-3"
+                  checked={isEmergency}
+                  onChange={() => setIsEmergency(!isEmergency)}
+                />
+                <label className="text-violet-900 font-semibold">
+                  Is this an emergency?
+                </label>
+              </div>
+
+              <div className="text-center">
+                <motion.button
+                  whileHover={{ scale: 1.05 }}
+                  whileTap={{ scale: 0.95 }}
+                  onClick={handleBooking}
+                  className="bg-violet-600 text-white text-lg font-semibold px-8 py-3 rounded-full shadow-lg hover:bg-violet-700 transition duration-300"
+                >
+                  Confirm Appointment
+                </motion.button>
               </div>
             </div>
-
-            {/* Reason for appointment */}
-            <div className="mt-4">
-              <label className="text-teal-900 font-bold">
-                Reason for Appointment:
-              </label>
-              <textarea
-                className="w-full p-2 border rounded-lg mt-2"
-                placeholder="Describe the reason for your appointment"
-                value={reason}
-                onChange={(e) => setReason(e.target.value)}
-              />
-            </div>
-
-            {/* Emergency check */}
-            <div className="mt-4 flex items-center">
-              <input
-                type="checkbox"
-                className="mr-2"
-                checked={isEmergency}
-                onChange={() => setIsEmergency(!isEmergency)}
-              />
-              <label className="text-teal-900 font-bold">
-                Is this an emergency?
-              </label>
-            </div>
-
-            {/* Submit Button */}
-            <div className="mt-8 text-center">
-              <button
-                onClick={handleBooking}
-                className="bg-purple-500 text-white text-center px-8 py-2 rounded-full hover:bg-purple-600 transition duration-300"
-              >
-                Confirm Appointment
-              </button>
-            </div>
-          </div>
+          </motion.div>
         </div>
       </CSSTransition>
 
-      {/* Drawer Animation Styles */}
       <style>
         {`
           .drawer-enter {
@@ -401,34 +371,45 @@ const DoctorDetails = () => {
             transition: all 300ms ease-in-out;
           }
 
-            /* Custom scrollbar styles */
-.scrollable {
-  scrollbar-width: thin; /* For Firefox */
-  scrollbar-color: #4b5563 #e5e7eb; /* Track color */
-}
+          .scrollable {
+            scrollbar-width: thin;
+            scrollbar-color: #4b5563 #e5e7eb;
+          }
 
-.scrollable::-webkit-scrollbar {
-  width: 8px; /* Width of the scrollbar */
-}
+          .scrollable::-webkit-scrollbar {
+            width: 8px;
+          }
 
-.scrollable::-webkit-scrollbar-track {
-  background: #e5e7eb; /* Track color */
-}
+          .scrollable::-webkit-scrollbar-track {
+            background: #e5e7eb;
+          }
 
-.scrollable::-webkit-scrollbar-thumb {
-  background-color: #4b5563; /* Handle color */
-  border-radius: 10px; /* Roundness of the handle */
-}
+          .scrollable::-webkit-scrollbar-thumb {
+            background-color: #4b5563;
+            border-radius: 10px;
+          }
 
-.scrollable::-webkit-scrollbar-thumb:hover {
-  background-color: #6b7280; /* Handle color on hover */
-}
-
+          .scrollable::-webkit-scrollbar-thumb:hover {
+            background-color: #6b7280;
+          }
         `}
       </style>
       <ToastContainer />
-    </div>
+    </motion.div>
   );
 };
+
+const InfoCard = ({ icon: Icon, title, content }) => (
+  <motion.div
+    whileHover={{ scale: 1.05 }}
+    className="flex items-center bg-white p-4 rounded-xl shadow-md"
+  >
+    <Icon className="text-violet-600 text-3xl mr-4" />
+    <div>
+      <p className="font-bold text-lg text-violet-900">{title}</p>
+      <p className="text-gray-600">{content}</p>
+    </div>
+  </motion.div>
+);
 
 export default DoctorDetails;
