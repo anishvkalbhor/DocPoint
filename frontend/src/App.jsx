@@ -6,6 +6,7 @@ import UserAppointment from "./pages/UserAppointment";
 import DoctorPage from "./pages/DoctorPage";
 import LoginPage from "./pages/LoginPage";
 import FormPage from "./pages/FormPage";
+import ProfilePage from "./pages/ProfilePage";
 
 import AdminDashboard from "./pages/AdminDashboard";
 import { Home, Calendar, LogIn } from "lucide-react";
@@ -13,6 +14,16 @@ import { FaUserCircle } from "react-icons/fa";
 import { FaUserDoctor } from "react-icons/fa6";
 import DoctorDetails from "./pages/DoctorDetails";
 import { MdAdminPanelSettings } from "react-icons/md";
+
+
+import CardiologyPage from './pages/CardiologyPage'
+import DermatologyPage from './pages/DermatologyPage'
+import GynecologyPage from './pages/GynecologyPage'
+import OrthopedicsPage from './pages/OrthopedicsPage'
+import PediatricsPage from './pages/PediatricsPage'
+import PsychiatryPage from './pages/PsychiatryPage'
+import NeurologyPage from './pages/NeurologyPage'
+import DentistPage from "./pages/DentistPage";
 
 const App = () => {
   const [dropdownOpen, setDropdownOpen] = useState(false);
@@ -25,7 +36,6 @@ const App = () => {
   };
 
   const handleLogout = () => {
-    // Implement logout functionality here
     setIsLoggedIn(false); // Update logged-in status
     console.log("Logged out");
   };
@@ -144,6 +154,15 @@ const App = () => {
           <Route path="/doctor/:id" element={<DoctorDetails />} />
           <Route path="/profile" element={<ProfilePage  />} />
           <Route path="/registerform" element={<FormPage />} />
+
+        <Route path="/specialty/cardiology" element={<CardiologyPage />} />
+        <Route path="/specialty/dermatology" element={<DermatologyPage />} />
+        <Route path="/specialty/pediatrics" element={<PediatricsPage />} />
+        <Route path="/specialty/neurology" element={<NeurologyPage />} />
+        <Route path="/specialty/orthopedics" element={<OrthopedicsPage />} />
+        <Route path="/specialty/psychiatry" element={<PsychiatryPage />} />
+        <Route path="/specialty/gynecology" element={<GynecologyPage />} />
+        <Route path="/specialty/dentist" element={<DentistPage />} />
         </Routes>
       </main>
     </BrowserRouter>

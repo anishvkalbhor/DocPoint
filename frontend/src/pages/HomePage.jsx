@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link } from 'react-router-dom'; // Import Link from react-router-dom
 import doc1 from '../assets/doctor1.png';
 import doc2 from '../assets/doctor2.png';
 import doc3 from '../assets/doctor3.jpg';
@@ -6,9 +7,9 @@ import doc4 from '../assets/doctor4.png';
 import doc5 from '../assets/doctor5.jpg';
 import doc6 from '../assets/doctor6.png';
 import doc7 from '../assets/doctor7.png';
+import doc8 from '../assets/doctor8.png';
 
 const HomePage = () => {
-
   // Array of doctor specialties for the categories section
   const specialties = [
     { name: 'Cardiology', img: doc1 },
@@ -18,6 +19,7 @@ const HomePage = () => {
     { name: 'Orthopedics', img: doc5 },
     { name: 'Psychiatry', img: doc6 },
     { name: 'Gynecology', img: doc7 },
+    { name: 'Dentist', img: doc8 },
   ];
 
   return (
@@ -65,7 +67,7 @@ const HomePage = () => {
                 </div>
               </div>
             </div>
-  
+
             {/* Right Side (Image) */}
             <div className="w-1/2 h-full flex items-center justify-center">
               <img
@@ -94,7 +96,7 @@ const HomePage = () => {
           
           <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-8">
             {specialties.map((specialty, index) => (
-              <div key={index} className="relative bg-white rounded-lg shadow-lg overflow-hidden group transition-transform duration-300 transform hover:scale-105">
+              <Link key={index} to={`/specialty/${specialty.name}`} className="relative bg-white rounded-lg shadow-lg overflow-hidden group transition-transform duration-300 transform hover:scale-105">
                 <img
                   src={specialty.img}
                   alt={specialty.name}
@@ -103,7 +105,7 @@ const HomePage = () => {
                 <div className="absolute inset-0 flex items-center justify-center bg-black bg-opacity-40 transition-opacity duration-300 group-hover:opacity-0">
                   <h3 className="text-white text-xl font-bold">{specialty.name}</h3>
                 </div>
-              </div>
+              </Link>
             ))}
           </div>
         </section>
