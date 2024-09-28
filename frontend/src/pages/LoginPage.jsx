@@ -9,14 +9,14 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import { Label } from "@/components/ui/label"
 import { motion, AnimatePresence } from "framer-motion"
 import OtpCard from "@/components/OtpCard"
-import { signUp, signIn, signInWithGoogle, signOutUser, resetPassword, updatePasswordUser, verifyEmail } from "@/firebase/auth"
+// import { signUp, signIn, signInWithGoogle, signOutUser, resetPassword, updatePasswordUser, verifyEmail } from "@/firebase/auth"
 import { AuthProvider, useAuth } from '@/contexts/authContext'
 import { useNavigate } from 'react-router-dom'
 import { toast, ToastContainer } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css'
 
 import { getFirestore, doc, getDoc, setDoc } from "firebase/firestore";
-import { getAuth, signInWithEmailAndPassword, signInWithPopup, GoogleAuthProvider } from "firebase/auth";
+import { getAuth, signInWithEmailAndPassword, signInWithPopup, GoogleAuthProvider, sendPasswordResetEmail } from "firebase/auth";
 
 // Initialize Firestore and Firebase Auth
 const firestore = getFirestore();
@@ -33,6 +33,7 @@ function LoginPageContent() {
   const [selectedTab, setSelectedTab] = useState('patient');
   const [isLogin, setIsLogin] = useState(true);
   const [isLoading, setIsLoading] = useState(false);
+  const [userRole, setUserRole] = useState('patient');
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -44,6 +45,7 @@ function LoginPageContent() {
 
   const handleTabChange = (value) => {
     setSelectedTab(value);
+    setUserRole(value);
     if (value === 'admin') {
       setShowOtpCard(!adminHasEnteredOtp);
     } else {
@@ -61,12 +63,15 @@ function LoginPageContent() {
         const userCredential = await signInWithEmailAndPassword(auth, email, password);
         const user = userCredential.user;
   
-        if (await userExistsInDB(user.uid)) {
+        const userDoc = await getDoc(doc(firestore, "users", user.uid));
+        if (userDoc.exists()) {
+          const userData = userDoc.data();
+          setUserRole(userData.role);
           toast.success('Logged in successfully!');
           navigate('/'); // Navigate to home if user already exists
         } else {
           toast.success('Logged in successfully!');
-          navigate('/registerform'); // If user doesn't exist, take them to register form
+          navigate(userRole === 'patient' ? '/registerform' : '/doctorform');
         }
   
       } else {
@@ -78,11 +83,12 @@ function LoginPageContent() {
         await setDoc(doc(firestore, "users", user.uid), {
           name: name,
           email: user.email,
+          role: userRole,
           createdAt: new Date(),
         });
   
         toast.success('Signed up successfully!');
-        navigate('/registerform'); // After signup, navigate to register form
+        navigate(userRole === 'patient' ? '/registerform' : '/doctorform');
       }
     } catch (error) {
       console.error("Error:", error);
@@ -101,7 +107,10 @@ function LoginPageContent() {
       const userCredential = await signInWithPopup(auth, provider);
       const user = userCredential.user;
   
-      if (await userExistsInDB(user.uid)) {
+      const userDoc = await getDoc(doc(firestore, "users", user.uid));
+      if (userDoc.exists()) {
+        const userData = userDoc.data();
+        setUserRole(userData.role);
         toast.success('Logged in with Google successfully!');
         navigate('/'); // Navigate to home if user already exists
       } else {
@@ -109,11 +118,12 @@ function LoginPageContent() {
         await setDoc(doc(firestore, "users", user.uid), {
           name: user.displayName,
           email: user.email,
+          role: userRole,
           createdAt: new Date(),
         });
   
         toast.success('Logged in with Google successfully!');
-        navigate('/registerform'); // If user is new, take them to register form
+        navigate(userRole === 'patient' ? '/registerform' : '/doctorform');
       }
   
     } catch (error) {
@@ -124,13 +134,6 @@ function LoginPageContent() {
     }
   };
   
-  // Helper function to check if user exists in Firestore DB
-  const userExistsInDB = async (uid) => {
-    const docRef = doc(firestore, "users", uid);
-    const docSnap = await getDoc(docRef);
-  
-    return docSnap.exists(); // Returns true if the document exists, otherwise false
-  };
   const toggleAuthMode = () => {
     setIsLogin(!isLogin);
   };
@@ -141,7 +144,7 @@ function LoginPageContent() {
       return;
     }
     try {
-      await resetPassword(email);
+      await sendPasswordResetEmail(auth, email);
       toast.success('Password reset email sent. Please check your inbox.');
     } catch (error) {
       console.error("Error resetting password:", error);

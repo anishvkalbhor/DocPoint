@@ -27,28 +27,47 @@ export const signIn = async (email, password) => {
     throw error;
   }
 };
+
 export const signInWithGoogle = async () => {
-  const provider = new GoogleAuthProvider();
-  const result = await signInWithPopup(auth, provider);
-//   localStorage.setItem('user', JSON.stringify(result.user));
-  return result;
+  try {
+    const provider = new GoogleAuthProvider();
+    const result = await signInWithPopup(auth, provider);
+    return result.user;
+  } catch (error) {
+    throw error;
+  }
 };
 
 export const signOutUser = async () => {
-  return signOut();
+  try {
+    await signOut(auth);
+  } catch (error) {
+    throw error;
+  }
 };
 
 export const resetPassword = async (email) => {
-  return sendPasswordResetEmail(auth, email);
-};
-export const updatePasswordUser = async (newPassword) => {
-  return updatePassword(auth.currentUser, newPassword);
+  try {
+    await sendPasswordResetEmail(auth, email);
+  } catch (error) {
+    throw error;
+  }
 };
 
+export const updatePasswordUser = async (newPassword) => {
+  try {
+    await updatePassword(auth.currentUser, newPassword);
+  } catch (error) {
+    throw error;
+  }
+};
 
 export const verifyEmail = async () => {
-  return sendEmailVerification(auth.currentUser, {
-    url : `${window.location.origin}/home`,
-  });
+  try {
+    await sendEmailVerification(auth.currentUser, {
+      url: `${window.location.origin}/home`,
+    });
+  } catch (error) {
+    throw error;
+  }
 };
-
