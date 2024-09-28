@@ -141,7 +141,7 @@ const HomePage = () => {
           
               <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-8">
                 {specialties.map((specialty, index) => (
-                  <Link key={index} to={`/specialty/${specialty.name}`} className="relative bg-white rounded-lg shadow-lg overflow-hidden group transition-transform duration-300 transform hover:scale-105">
+                  <Link key={index} to={`/doctor/${specialty.name}`} className="relative bg-white rounded-lg shadow-lg overflow-hidden group transition-transform duration-300 transform hover:scale-105">
                     <div className="w-full h-32 overflow-hidden">
                       <img
                         src={specialty.img}
