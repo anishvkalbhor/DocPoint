@@ -36,7 +36,7 @@ const OrthopedicsPage = () => {
             <p className="text-center text-gray-600 mb-4">
               Appointment Fee: ₹{doctor.fee}
             </p>
-            <Link to={`/doctor/${doctor.id}`}>
+            <Link to={`/doctors/${doctor.id}`}>
               <button className="bg-purple-600 text-white py-2 px-6 rounded-full hover:bg-purple-700 transition duration-300">
                 Visit
               </button>
