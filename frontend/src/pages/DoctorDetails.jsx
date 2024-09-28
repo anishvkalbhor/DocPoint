@@ -179,52 +179,52 @@ const DoctorDetails = () => {
         <div className="bg-white p-8 rounded-lg shadow-lg max-w-4xl mx-auto">
           {/* Doctor Image and Name */}
           <div className="flex items-center justify-center flex-col">
-            <div className="relative w-48 h-48 mb-4 rounded-full overflow-hidden shadow-lg">
+            <div className="relative w-48 h-48 mb-4 rounded-full overflow-hidden shadow-xl">
               <img
                 src={doctor.img}
                 alt={doctor.name}
                 className="w-full h-full object-cover"
               />
             </div>
-            <h2 className="text-4xl font-bold text-teal-900 mb-2">
+            <h2 className="text-4xl font-bold text-teal-700 mb-2">
               {doctor.name}
             </h2>
-            <span className="inline-block bg-teal-600 text-white text-lg px-4 py-1 rounded-full">
+            <span className="inline-block bg-teal-600 text-white text-xl px-4 py-1 rounded-full">
               {doctor.specialty}
             </span>
           </div>
 
           {/* Doctor Info */}
           <div className="mt-8 grid grid-cols-1 md:grid-cols-2 gap-5">
-            <div className="flex items-center">
+            <div className="flex items-center justify-center">
               <FaGraduationCap className="text-teal-600 text-2xl mr-3" />
               <div>
                 <p className="font-bold text-lg text-teal-900">Qualification</p>
                 <p className="text-gray-600">{doctor.qualification}</p>
               </div>
             </div>
-            <div className="flex items-center">
+            <div className="flex items-center justify-center">
               <FaBriefcase className="text-teal-600 text-2xl mr-3" />
               <div>
                 <p className="font-bold text-lg text-teal-900">Experience</p>
                 <p className="text-gray-600">{doctor.experience} years</p>
               </div>
             </div>
-            <div className="flex items-center">
+            <div className="flex items-center justify-center">
               <FaMapMarkerAlt className="text-teal-600 text-2xl mr-3" />
               <div>
                 <p className="font-bold text-lg text-teal-900">Location</p>
                 <p className="text-gray-600">{doctor.location}</p>
               </div>
             </div>
-            <div className="flex items-center">
+            <div className="flex items-center justify-center">
               <FaPhoneAlt className="text-teal-600 text-2xl mr-3" />
               <div>
                 <p className="font-bold text-lg text-teal-900">Contact</p>
                 <p className="text-gray-600">{doctor.contact}</p>
               </div>
             </div>
-            <div className="flex items-center">
+            <div className="flex items-center justify-center">
               <FaMoneyBillWave className="text-teal-600 text-2xl mr-3" />
               <div>
                 <p className="font-bold text-lg text-teal-900">
