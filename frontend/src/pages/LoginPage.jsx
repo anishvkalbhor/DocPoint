@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useContext } from 'react'
 import { FiMail, FiLock, FiUser } from 'react-icons/fi'
 import { FaUserMd, FaUserCog, FaUserInjured } from 'react-icons/fa'
 import { FcGoogle } from 'react-icons/fc'
@@ -9,31 +9,29 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import { Label } from "@/components/ui/label"
 import { motion, AnimatePresence } from "framer-motion"
 import OtpCard from "@/components/OtpCard"
-// import { signUp, signIn, signInWithGoogle, signOutUser, resetPassword, updatePasswordUser, verifyEmail } from "@/firebase/auth"
 import { AuthProvider, useAuth } from '@/contexts/authContext'
 import { useNavigate } from 'react-router-dom'
 import { toast, ToastContainer } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css'
 
 import { getFirestore, doc, getDoc, setDoc } from "firebase/firestore";
-import { getAuth, signInWithEmailAndPassword, signInWithPopup, GoogleAuthProvider, sendPasswordResetEmail } from "firebase/auth";
+import { getAuth, signInWithEmailAndPassword, signInWithPopup, GoogleAuthProvider, sendPasswordResetEmail, createUserWithEmailAndPassword } from "firebase/auth";
 
 // Initialize Firestore and Firebase Auth
 const firestore = getFirestore();
 const auth = getAuth();
 
 function LoginPageContent() {
-  const { userLoggedIn } = useAuth();
+  const { login, userRole, isUserLoggedIn, setIsUserLoggedIn } = useAuth();
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
   const [name, setName] = useState('')
-  const [isSigningUp, setIsSigningUp] = useState(false)
   const [showOtpCard, setShowOtpCard] = useState(false);
   const [adminHasEnteredOtp, setAdminHasEnteredOtp] = useState(false);
   const [selectedTab, setSelectedTab] = useState('patient');
   const [isLogin, setIsLogin] = useState(true);
   const [isLoading, setIsLoading] = useState(false);
-  const [userRole, setUserRole] = useState('patient');
+  const [localUserRole, setLocalUserRole] = useState('patient');
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -45,7 +43,7 @@ function LoginPageContent() {
 
   const handleTabChange = (value) => {
     setSelectedTab(value);
-    setUserRole(value);
+    setLocalUserRole(value);
     if (value === 'admin') {
       setShowOtpCard(!adminHasEnteredOtp);
     } else {
@@ -59,37 +57,40 @@ function LoginPageContent() {
   
     try {
       if (isLogin) {
-        // Log in user with email and password
         const userCredential = await signInWithEmailAndPassword(auth, email, password);
         const user = userCredential.user;
-  
+        
         const userDoc = await getDoc(doc(firestore, "users", user.uid));
         if (userDoc.exists()) {
           const userData = userDoc.data();
-          setUserRole(userData.role);
+          // setUserRole(userData.role);
+          setLocalUserRole(userData.role);
           toast.success('Logged in successfully!');
-          navigate('/'); // Navigate to home if user already exists
+          navigate('/');
         } else {
           toast.success('Logged in successfully!');
-          navigate(userRole === 'patient' ? '/registerform' : '/doctorform');
+          navigate(localUserRole === 'patient' ? '/registerform' : '/doctorform');
         }
   
       } else {
-        // Sign up new user
         const userCredential = await createUserWithEmailAndPassword(auth, email, password);
         const user = userCredential.user;
   
-        // Add new user to Firestore
-        await setDoc(doc(firestore, "users", user.uid), {
+        const userData = {
           name: name,
           email: user.email,
-          role: userRole,
+          role: localUserRole,
           createdAt: new Date(),
-        });
+        };
   
+        await setDoc(doc(firestore, "users", user.uid), userData);
+  
+        // setUserRole(localUserRole);
+        login(userData)
         toast.success('Signed up successfully!');
-        navigate(userRole === 'patient' ? '/registerform' : '/doctorform');
+        navigate(localUserRole === 'patient' ? '/registerform' : '/doctorform');
       }
+      setIsUserLoggedIn(true);
     } catch (error) {
       console.error("Error:", error);
       toast.error(`Authentication failed: ${error.message}`);
@@ -102,7 +103,6 @@ function LoginPageContent() {
     setIsLoading(true);
   
     try {
-      // Sign in user with Google
       const provider = new GoogleAuthProvider();
       const userCredential = await signInWithPopup(auth, provider);
       const user = userCredential.user;
@@ -110,22 +110,26 @@ function LoginPageContent() {
       const userDoc = await getDoc(doc(firestore, "users", user.uid));
       if (userDoc.exists()) {
         const userData = userDoc.data();
-        setUserRole(userData.role);
+        // setUserRole(userData.role);
+        setLocalUserRole(userData.role);
         toast.success('Logged in with Google successfully!');
-        navigate('/'); // Navigate to home if user already exists
+        navigate('/');
       } else {
-        // Add new Google user to Firestore
-        await setDoc(doc(firestore, "users", user.uid), {
+        const userData = {
           name: user.displayName,
           email: user.email,
-          role: userRole,
+          role: localUserRole,
           createdAt: new Date(),
-        });
+        };
   
+        await setDoc(doc(firestore, "users", user.uid), userData);
+  
+        login(userData)
+        // setUserRole(localUserRole);
         toast.success('Logged in with Google successfully!');
-        navigate(userRole === 'patient' ? '/registerform' : '/doctorform');
+        navigate(localUserRole === 'patient' ? '/registerform' : '/doctorform');
       }
-  
+      setIsUserLoggedIn(true);
     } catch (error) {
       console.error("Error signing in with Google:", error);
       toast.error(`Google sign-in failed: ${error.message}`);
@@ -281,10 +285,12 @@ function LoginPageContent() {
   );
 }
 
-export default function LoginPage() {
+function LoginPage() {
   return (
     <AuthProvider>
       <LoginPageContent />
     </AuthProvider>
   );
 }
+
+export default LoginPage;

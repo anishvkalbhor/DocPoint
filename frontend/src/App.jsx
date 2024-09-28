@@ -15,57 +15,12 @@ import { FaUserDoctor } from "react-icons/fa6";
 import DoctorDetails from "./pages/DoctorDetails";
 import { MdAdminPanelSettings } from "react-icons/md";
 import { signOutUser } from "./firebase/auth";
-import DoctorForm from "./pages/DoctorForm";
+import { AuthContext } from "./contexts/authContext";
 
-
-// const ProtectedRoute = ({children}) =>{
-//   const {isAuthenticated,user} = useAuthStore();
-  
-//   if (!isAuthenticated){
-//     return <Navigate to="/login" replace/>
-//   }
-
-//   if(!user.isVerified){
-//     return <Navigate to="/verifyemail" replace />
-//   }
-
-//   if(user.role === "admin"){
-//     return <Navigate to="/adminDashboard" replace/>
-//   }
-
-//   return children;
-// }
-
-// const RedirectAuthenticatedUser= ({children}) =>{
-//   const {isAuthenticated,user} = useAuthStore();
-  
-//   if (isAuthenticated && user.isVerified && user.role === "evaluator"){
-//     return <Navigate to="/" replace/>
-//   }
-//   else if (isAuthenticated && user.isVerified && user.role === "admin"){
-//     return <Navigate to="/adminDashboard" replace/>
-//   }
-
-//   return children;
-// }
-
-// const ProtectedAdminRoute = ({children}) =>{
-//   const {isAuthenticated,user} = useAuthStore();
-  
-//   if (!isAuthenticated){
-//     return <Navigate to="/login" replace/>
-//   }
-
-//   if(!user.isVerified){
-//     return <Navigate to="/verifyemail" replace />
-//   }
-
-//   if(user.role !== "admin"){
-//     return <Navigate to="/" replace/>
-//   }
-
-//   return children;
-// }
+// PrivateRoute Component
+const PrivateRoute = ({ children, isAuthenticated }) => {
+  return isAuthenticated ? children : <Navigate to="/auth/login" />;
+};
 
 const App = () => {
   const [dropdownOpen, setDropdownOpen] = useState(false);
