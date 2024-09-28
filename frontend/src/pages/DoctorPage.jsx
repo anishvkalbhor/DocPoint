@@ -17,7 +17,6 @@ import doc10 from '../assets/doctor10.jpg';
 import doc11 from '../assets/doctor11.jpg';
 import doc12 from '../assets/doctor12.png';
 import doc13 from '../assets/doctor13.jpg';
-
 // import doctors from './path-to-doctors-array'; 
 
 const doctors = [
@@ -72,7 +71,7 @@ const doctors = [
 
 const specialties = ['All', 'Cardiology', 'Dermatology', 'Pediatrics', 'Neurology', 'Orthopedics', 'Psychiatry', 'Gynecology', 'Dentist'];
 
-const DoctorDetailsPage = () => {
+const DoctorDetails = () => {
   const { id } = useParams(); // Get the doctor's ID from the URL
   const doctor = doctors.find((doc) => doc.id === parseInt(id)); // Find the doctor by ID
 

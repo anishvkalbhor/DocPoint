@@ -10,7 +10,7 @@ import doc7 from '../assets/doctor7.png';
 import doc8 from '../assets/doctor14.png'
 
 import '@fontsource/poppins/400.css'; // Weight 400
-import '@fontsource/poppins/700.css'; // Weight 700
+import '@fontsource/poppins/700.css';
 import { useNavigate } from 'react-router-dom';
 
 const HomePage = () => {
