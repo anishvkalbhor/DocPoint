@@ -18,7 +18,6 @@ const HomePage = () => {
     { name: 'Orthopedics', img: doc5 },
     { name: 'Psychiatry', img: doc6 },
     { name: 'Gynecology', img: doc7 },
-    { name: 'Dentist', img: doc14 },
   ];
 
   // Slideshow state and logic

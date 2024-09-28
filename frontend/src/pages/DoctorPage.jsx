@@ -19,7 +19,6 @@ const doctors = [
   { id: 6, name: 'Dr. Frank', specialty: 'Psychiatry', fee: 350, img: doc6 },
   { id: 7, name: 'Dr. Grace', specialty: 'Gynecology', fee: 500, img: doc7 },
   { id: 8, name: 'Dr. Drake', specialty: 'Neurology', fee: 500, img: doc8 },
-  { id: 9, name: 'Dr. Kimura', specialty: 'Dentist', fee: 500, img: doc14 },
 ];
 
 const specialties = ['All', 'Cardiology', 'Dermatology', 'Pediatrics', 'Neurology', 'Orthopedics', 'Psychiatry', 'Gynecology', 'Dentist'];
