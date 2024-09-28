@@ -59,7 +59,7 @@ const App = () => {
       <header className="flex justify-between items-center bg-gray-100 p-4 shadow-md">
         <div className="flex items-center">
           <Link to="/" className="text-2xl font-bold cursor-pointer">
-            <span className="text-blue-600">DOC</span>
+            <span className="text-violet-600">DOC</span>
             <span className="text-gray-800">POINT</span>
           </Link>
         </div>
@@ -151,7 +151,7 @@ const App = () => {
           <Route path="/auth/login" element={<LoginPage />} />
           <Route path="/doctor" element={<DoctorPage />} />
           <Route path="/admin" element={<AdminDashboard />} />
-          <Route path="/doctors/:specialty" element={<DoctorPage />} />
+          <Route path="/doctor/:specialty" element={<DoctorPage />} />
           {/* <Route path="/admin" element={<AdminDashboard />} /> */}
           <Route path="/doctor/:id" element={<DoctorDetails />} />
           <Route path="/profile" element={<ProfilePage  />} />
