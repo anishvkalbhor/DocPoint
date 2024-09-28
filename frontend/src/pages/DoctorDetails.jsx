@@ -137,6 +137,21 @@ const doctors = [
     availability: false,
     hours: "1:00 PM - 9:00 PM",
   },
+
+  {
+    id: 9,
+    name: "Dr. Kimura",
+    specialty: "Dentist",
+    fee: 500,
+    img: doc14,
+    experience: 10,
+    qualification: "MBBS",
+    location: "Den Clinic",
+    contact: "729-654-1111",
+    summary: "Dr. Kimura is a skilled dentist.",
+    availability: false,
+    hours: "1:00 PM - 9:00 PM",
+  },
 ];
 
 const DoctorDetails = () => {

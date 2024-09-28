@@ -6,6 +6,7 @@ import doc4 from '../assets/doctor4.png';
 import doc5 from '../assets/doctor5.jpg';
 import doc6 from '../assets/doctor6.png';
 import doc7 from '../assets/doctor7.png';
+import doc14 from '../assets/doctor14.png'
 
 const HomePage = () => {
   // Array of doctor specialties for the categories section
@@ -17,6 +18,7 @@ const HomePage = () => {
     { name: 'Orthopedics', img: doc5 },
     { name: 'Psychiatry', img: doc6 },
     { name: 'Gynecology', img: doc7 },
+    { name: 'Dentist', img: doc14 },
   ];
 
   // Slideshow state and logic
