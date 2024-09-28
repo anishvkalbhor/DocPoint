@@ -17,6 +17,7 @@ import doc5 from "../assets/doctor5.jpg";
 import doc6 from "../assets/doctor6.png";
 import doc7 from "../assets/doctor7.png";
 import doc8 from "../assets/doctor8.png";
+import doc14 from "../assets/doctor14.png"
 
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
@@ -134,6 +135,21 @@ const doctors = [
     location: "Neuro Clinic",
     contact: "789-654-1230",
     summary: "Dr. Drake focuses on treating various neurological conditions.",
+    availability: false,
+    hours: "1:00 PM - 9:00 PM",
+  },
+
+  {
+    id: 9,
+    name: "Dr. Kimura",
+    specialty: "Dentist",
+    fee: 500,
+    img: doc14,
+    experience: 10,
+    qualification: "MBBS",
+    location: "Den Clinic",
+    contact: "729-654-1111",
+    summary: "Dr. Kimura is a skilled dentist.",
     availability: false,
     hours: "1:00 PM - 9:00 PM",
   },

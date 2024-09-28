@@ -81,7 +81,7 @@ const RenderField = ({ field, props }) => {
       );
     case FormFieldType.PHONE_INPUT:
       return (
-        <div className="flex rounded-md bg-dark-400 p-2 focus-within:ring-2 focus-within:ring-violet-500 transition-all duration-200 shadow-sm hover:shadow-md">
+        <div className="flex rounded-md border border-dark-500 bg-dark-400 p-2 focus-within:ring-2 focus-within:ring-violet-500 transition-all duration-200 shadow-sm hover:shadow-md">
         <FormControl>
           <PhoneInput
             defaultCountry="IN"
