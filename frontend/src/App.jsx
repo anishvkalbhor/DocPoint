@@ -5,11 +5,12 @@ import HomePage from "./pages/HomePage";
 import UserAppointment from "./pages/UserAppointment";
 import DoctorPage from "./pages/DoctorPage";
 import LoginPage from "./pages/LoginPage";
+import FormPage from "./pages/FormPage";
+
 import AdminDashboard from "./pages/AdminDashboard";
 import { Home, Calendar, LogIn } from "lucide-react";
 import { FaUserDoctor } from "react-icons/fa6";
 import { MdAdminPanelSettings } from "react-icons/md";
-import DoctorDetails from './pages/DoctorDetails';
 
 const App = () => {
   return (
@@ -78,7 +79,8 @@ const App = () => {
           <Route path="/auth/login" element={<LoginPage />} />
           <Route path="/doctor" element={<DoctorPage />} />
           <Route path="/admin" element={<AdminDashboard />} />
-          <Route path="/doctor/:id" element={<DoctorDetails />} />
+          <Route path="/registerform" element={<FormPage />} /> 
+
 
         </Routes>
       </main>

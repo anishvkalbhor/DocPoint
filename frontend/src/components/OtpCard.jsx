@@ -41,7 +41,7 @@ const OtpCard = () => {
 
   const closeModal = () => {
     setOpen(false);
-    navigate("/login");
+    navigate("/auth/login");
   };
 
   const validatePasskey = (e) => {
