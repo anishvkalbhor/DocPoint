@@ -83,6 +83,16 @@ module.exports = {
 		  'fade-in-down': 'fadeInDown 0.8s ease-out',
 		  'fade-in-right': 'fadeInRight 0.8s ease-out',
 		},
+		// Add backdrop blur utilities
+		backdropBlur: {
+		  none: '0',
+		  sm: '4px',
+		  DEFAULT: '8px',
+		  md: '12px',
+		  lg: '16px',
+		  xl: '24px',
+		  '2xl': '40px',
+		},
 	  },
 	},
 	plugins: [
