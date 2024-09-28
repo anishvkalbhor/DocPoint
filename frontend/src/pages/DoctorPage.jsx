@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useParams, Link, useNavigate } from 'react-router-dom'; // Import useParams for dynamic routes
-import React, { useState, useEffect } from 'react';
-import { Link, useParams } from 'react-router-dom';
+
 import doc1 from '../assets/doctor1.png';
 import doc2 from '../assets/doctor2.png';
 import doc3 from '../assets/doctor3.jpg';
@@ -64,39 +63,24 @@ const doctors = [
   { id: 38, name: "Dr. Jennie", specialty: "Psychiatry", fee: 500, img: doc3 },
   { id: 39, name: "Dr. Diana", specialty: "Psychiatry", fee: 450, img: doc4 },
   { id: 40, name: "Dr. Emma", specialty: "Psychiatry", fee: 350, img: doc5 },
-
-  
 ];
 
-const specialties = ['All', 'Cardiology', 'Dermatology', 'Pediatrics', 'Neurology', 'Orthopedics', 'Psychiatry', 'Gynecology'];
+const specialties = ['All', 'Cardiology', 'Dermatology', 'Pediatrics', 'Neurology', 'Orthopedics', 'Psychiatry', 'Gynecology', 'Dentist'];
 
 const DoctorPage = () => {
-  const { specialty } = useParams(); // Access the dynamic specialty parameter
+  const { specialty } = useParams(); // Capture the specialty from the route params
   const navigate = useNavigate(); // To handle navigation
   const [filteredDoctors, setFilteredDoctors] = useState(doctors);
 
   useEffect(() => {
+    // Filter doctors based on the selected specialty
     if (specialty && specialty !== 'All') {
       const filtered = doctors.filter((doc) => doc.specialty.toLowerCase() === specialty.toLowerCase());
       setFilteredDoctors(filtered);
     } else {
-      setFilteredDoctors(doctors); // Show all doctors if no specialty is selected
+      setFilteredDoctors(doctors); // Show all doctors if no specialty is selected or if 'All' is selected
     }
   }, [specialty]);
-
-  const specialties = ['All', 'Cardiology', 'Dermatology', 'Pediatrics', 'Neurology', 'Orthopedics', 'Psychiatry', 'Gynecology'];
-  const { specialty } = useParams(); // Capture the specialty from the route params
-  const [selectedSpecialty, setSelectedSpecialty] = useState(specialty || 'All'); // Set initial state to match route param
-
-  useEffect(() => {
-    if (specialty) {
-      setSelectedSpecialty(specialty);
-    }
-  }, [specialty]);
-
-  const filteredDoctors = selectedSpecialty === 'All'
-    ? doctors
-    : doctors.filter((doc) => doc.specialty === selectedSpecialty);
 
   return (
     <div className="min-h-screen bg-gray-100 py-8">
@@ -120,29 +104,27 @@ const DoctorPage = () => {
           ))}
         </div>
 
-
-        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
-          {filteredDoctors.map((doctor) => (
+        {/* Doctor Cards */}
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-8">
+          {filteredDoctors.map((doc) => (
             <div
-              key={doctor.id}
-              className="bg-white p-6 rounded-lg shadow-lg hover:shadow-xl transform hover:scale-105 transition-all duration-300 ease-in-out"
+              key={doc.id}
+              className="bg-white rounded-lg shadow-lg p-6 flex flex-col items-center space-y-4"
             >
               <img
-                src={doctor.img}
-                alt={doctor.name}
-                className="w-24 h-24 rounded-full mx-auto mb-4"
+                src={doc.img}
+                alt={doc.name}
+                className="w-32 h-32 rounded-full object-cover"
               />
-              <h3 className="text-xl text-purple-900 font-bold text-center">{doctor.name}</h3>
-              <p className="text-center text-gray-700">{doctor.specialty}</p>
-              <p className="text-center text-purple-600 font-semibold">₹{doctor.fee}</p>
-              <div className="mt-4 text-center">
-                {/* Link to the DoctorDetailsPage */}
-                <Link to={`/doctor/${doctor.id}`}>
-                  <button className="bg-purple-600 text-white py-2 px-4 rounded-full hover:bg-purple-700 transition duration-300">
-                    Visit
-                  </button>
-                </Link>
-              </div>
+              <h2 className="text-xl font-semibold text-purple-900">{doc.name}</h2>
+              <p className="text-gray-600">{doc.specialty}</p>
+              <p className="text-purple-600 font-bold">Fee: ₹{doc.fee}</p>
+              <Link
+                to={`/doctors/${doc.id}/book`}
+                className="mt-4 px-4 py-2 bg-purple-600 text-white rounded-full hover:bg-purple-700"
+              >
+                Book Appointment
+              </Link>
             </div>
           ))}
         </div>
