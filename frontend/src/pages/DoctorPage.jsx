@@ -18,6 +18,8 @@ import doc11 from '../assets/doctor11.jpg';
 import doc12 from '../assets/doctor12.png';
 import doc13 from '../assets/doctor13.jpg';
 
+// import doctors from './path-to-doctors-array'; 
+
 const doctors = [
   { id: 1, name: "Dr. Mark", specialty: "Cardiology", fee: 300, img: doc1 },
   { id: 2, name: "Dr. Bob", specialty: "Cardiology", fee: 400, img: doc2 },
@@ -70,20 +72,28 @@ const doctors = [
 
 const specialties = ['All', 'Cardiology', 'Dermatology', 'Pediatrics', 'Neurology', 'Orthopedics', 'Psychiatry', 'Gynecology', 'Dentist'];
 
+const DoctorDetailsPage = () => {
+  const { id } = useParams(); // Get the doctor's ID from the URL
+  const doctor = doctors.find((doc) => doc.id === parseInt(id)); // Find the doctor by ID
+
+  if (!doctor) {
+    return <p>Doctor not found!</p>;
+}
+}
 const DoctorPage = () => {
-  const { specialty } = useParams(); // Capture the specialty from the route params
+  const { specialty } = useParams(); // Access the dynamic specialty parameter
   const navigate = useNavigate(); // To handle navigation
   const [filteredDoctors, setFilteredDoctors] = useState(doctors);
 
   useEffect(() => {
-    // Filter doctors based on the selected specialty
     if (specialty && specialty !== 'All') {
       const filtered = doctors.filter((doc) => doc.specialty.toLowerCase() === specialty.toLowerCase());
       setFilteredDoctors(filtered);
     } else {
-      setFilteredDoctors(doctors); // Show all doctors if no specialty is selected or if 'All' is selected
+      setFilteredDoctors(doctors); // Show all doctors if no specialty is selected
     }
   }, [specialty]);
+
 
   return (
     <div className="min-h-screen bg-gradient-to-b from-purple-100 to-white py-8 font-sans">
@@ -102,7 +112,7 @@ const DoctorPage = () => {
           {specialties.map((spec) => (
             <motion.button
               key={spec}
-              onClick={() => navigate(`/doctors/${spec}`)} // Navigate to filtered specialty
+              onClick={() => navigate(`/doctor/${spec}`)} // Navigate to filtered specialty
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
               className={`px-4 py-2 m-2 rounded-full border-2 text-purple-900 ${
@@ -131,17 +141,17 @@ const DoctorPage = () => {
                 alt={doc.name}
                 className="w-32 h-32 rounded-full object-cover"
               />
-              <h3 className="text-2xl text-purple-900 font-bold text-center mb-2">{doctor.name}</h3>
+              <h3 className="text-2xl text-purple-900 font-bold text-center mb-2">{doc.name}</h3>
               <p className="text-center text-gray-700 mb-2">
                 <FontAwesomeIcon icon={faStethoscope} className="mr-2 text-purple-600" />
-                {doctor.specialty}
+                {doc.specialty}
               </p>
               <p className="text-center text-purple-600 font-semibold mb-4">
                 <FontAwesomeIcon icon={faDollarSign} className="mr-1" />
-                {doctor.fee}
+                {doc.fee}
               </p>
               <div className="mt-4 text-center">
-                <Link to={`/doctor/${doctor.id}`}>
+                <Link to={`/doctor/${doc.id}`}>
                   <motion.button
                     whileHover={{ scale: 1.05 }}
                     whileTap={{ scale: 0.95 }}
@@ -160,137 +170,3 @@ const DoctorPage = () => {
 };
 
 export default DoctorPage;
-
-
-
-
-
-// import doc1 from "../assets/doctor1.png";
-// import doc2 from "../assets/doctor2.png";
-// import doc3 from "../assets/doctor3.jpg";
-// import doc4 from "../assets/doctor4.png";
-// import doc5 from "../assets/doctor5.jpg";
-// import doc6 from "../assets/doctor6.png";
-// import doc7 from "../assets/doctor7.png";
-// import doc8 from "../assets/doctor8.png";
-// import doc14 from '../assets/doctor14.png';
-
-
-
-// const doctors = [
-//   {
-//     id: 1,
-//     name: "Dr. Alice",
-//     specialty: "Cardiology",
-//     fee: 500,
-//     img: doc1,
-//     experience: 10,
-//     qualification: "MBBS, MD",
-//     location: "City Hospital",
-//     contact: "123-456-7890",
-//     summary:
-//       "Dr. Alice has over 10 years of experience in treating heart-related conditions.",
-//     availability: true,
-//     hours: "9:00 AM - 5:00 PM",
-//   },
-//   {
-//     id: 2,
-//     name: "Dr. Bob",
-//     specialty: "Dermatology",
-//     fee: 400,
-//     img: doc2,
-//     experience: 8,
-//     qualification: "MBBS, MD",
-//     location: "Skin Care Clinic",
-//     contact: "987-654-3210",
-//     summary:
-//       "Dr. Bob specializes in dermatology with a focus on skin treatments.",
-//     availability: false,
-//     hours: "10:00 AM - 6:00 PM",
-//   },
-//   {
-//     id: 3,
-//     name: "Dr. Charlie",
-//     specialty: "Pediatrics",
-//     fee: 450,
-//     img: doc3,
-//     experience: 5,
-//     qualification: "MBBS",
-//     location: "Children's Health Center",
-//     contact: "456-789-1234",
-//     summary: "Dr. Charlie is passionate about providing care to children.",
-//     availability: true,
-//     hours: "8:00 AM - 4:00 PM",
-//   },
-//   {
-//     id: 4,
-//     name: "Dr. Diana",
-//     specialty: "Neurology",
-//     fee: 600,
-//     img: doc4,
-//     experience: 12,
-//     qualification: "MBBS, MD",
-//     location: "Neuro Clinic",
-//     contact: "321-654-9870",
-//     summary:
-//       "Dr. Diana has over a decade of experience in neurological disorders.",
-//     availability: false,
-//     hours: "12:00 PM - 8:00 PM",
-//   },
-//   {
-//     id: 5,
-//     name: "Dr. Emma",
-//     specialty: "Orthopedics",
-//     fee: 550,
-//     img: doc5,
-//     experience: 7,
-//     qualification: "MBBS, MS",
-//     location: "Bone Care Hospital",
-//     contact: "789-123-4560",
-//     summary: "Dr. Emma is known for her expertise in orthopedic surgeries.",
-//     availability: true,
-//     hours: "7:00 AM - 3:00 PM",
-//   },
-//   {
-//     id: 6,
-//     name: "Dr. Frank",
-//     specialty: "Psychiatry",
-//     fee: 350,
-//     img: doc6,
-//     experience: 9,
-//     qualification: "MBBS, MD",
-//     location: "Mind Health Clinic",
-//     contact: "654-321-9870",
-//     summary: "Dr. Frank focuses on treating mental health disorders.",
-//     availability: true,
-//     hours: "9:00 AM - 5:00 PM",
-//   },
-//   {
-//     id: 7,
-//     name: "Dr. Grace",
-//     specialty: "Gynecology",
-//     fee: 500,
-//     img: doc7,
-//     experience: 15,
-//     qualification: "MBBS, MD",
-//     location: "Women's Health Center",
-//     contact: "789-456-1230",
-//     summary: "Dr. Grace is an expert in women's reproductive health.",
-//     availability: true,
-//     hours: "10:00 AM - 6:00 PM",
-//   },
-//   {
-//     id: 8,
-//     name: "Dr. Drake",
-//     specialty: "Neurology",
-//     fee: 500,
-//     img: doc8,
-//     experience: 6,
-//     qualification: "MBBS",
-//     location: "Neuro Clinic",
-//     contact: "789-654-1230",
-//     summary: "Dr. Drake focuses on treating various neurological conditions.",
-//     availability: false,
-//     hours: "1:00 PM - 9:00 PM",
-//   },
-// ];

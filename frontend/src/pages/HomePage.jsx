@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useState, useEffect} from 'react';
 import { Link } from 'react-router-dom'; // Import Link from react-router-dom
 import doc1 from '../assets/doctor1.png';
 import doc2 from '../assets/doctor2.png';
@@ -7,7 +7,7 @@ import doc4 from '../assets/doctor4.png';
 import doc5 from '../assets/doctor5.jpg';
 import doc6 from '../assets/doctor6.png';
 import doc7 from '../assets/doctor7.png';
-import doc14 from '../assets/doctor14.png'
+import doc8 from '../assets/doctor14.png'
 
 import '@fontsource/poppins/400.css'; // Weight 400
 import '@fontsource/poppins/700.css'; // Weight 700
@@ -27,6 +27,17 @@ const HomePage = () => {
     { name: 'Gynecology', img: doc7 },
     { name: 'Dentist', img: doc8 },
   ];
+  // Slideshow state and logic
+  const [currentSlide, setCurrentSlide] = useState(0);
+
+  // Automatically change slide every 3 seconds
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setCurrentSlide((prevSlide) => (prevSlide + 1) % specialties.length);
+    }, 3000); // Change slide every 3 seconds
+    return () => clearInterval(interval);
+  }, [specialties.length]);
+
 
   return (
     <div>
