@@ -1,46 +1,22 @@
-const Appointment = require('../models/appointmentModel');
+const appointmentModel = require('../models/appointmentModel');
 
-exports.getAllAppointments = async (req, res) => {
-  try {
-    const appointments = await Appointment.getAll();
-    res.json(appointments);
-  } catch (error) {
-    res.status(500).json({ error: error.message });
+const appointmentsController = {
+  async bookAppointment(req, res) {
+    const { userId, doctorId, timeSlot } = req.body;
+    const result = await appointmentModel.bookAppointment({ userId, doctorId, timeSlot });
+    res.status(201).json(result.id);
+  },
+  async getAppointments(req, res) {
+    const userId = req.params.userId;
+    const appointments = await appointmentModel.getAppointmentsByUserId(userId);
+    res.status(200).json(appointments.docs.map(doc => doc.data()));
+  },
+  async updateAppointment(req, res) {
+    const appointmentId = req.params.id;
+    const updatedData = req.body;
+    await appointmentModel.updateAppointment(appointmentId, updatedData);
+    res.status(200).send("Appointment updated");
   }
 };
 
-exports.getAppointmentById = async (req, res) => {
-  try {
-    const appointment = await Appointment.getById(req.params.id);
-    res.json(appointment);
-  } catch (error) {
-    res.status(500).json({ error: error.message });
-  }
-};
-
-exports.createAppointment = async (req, res) => {
-  try {
-    const appointment = await Appointment.create(req.body);
-    res.status(201).json(appointment);
-  } catch (error) {
-    res.status(500).json({ error: error.message });
-  }
-};
-
-exports.updateAppointment = async (req, res) => {
-  try {
-    const appointment = await Appointment.update(req.params.id, req.body);
-    res.json(appointment);
-  } catch (error) {
-    res.status(500).json({ error: error.message });
-  }
-};
-
-exports.deleteAppointment = async (req, res) => {
-  try {
-    await Appointment.delete(req.params.id);
-    res.status(204).json({ message: 'Appointment deleted successfully' });
-  } catch (error) {
-    res.status(500).json({ error: error.message });
-  }
-};
+module.exports = appointmentsController;

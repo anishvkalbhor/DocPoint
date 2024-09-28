@@ -1,12 +1,16 @@
-const admin = require('firebase-admin');
+const admin = require('../config/firebaseConfig').admin;
 
-module.exports = async (req, res, next) => {
+const authMiddleware = async (req, res, next) => {
+  const token = req.headers.authorization;
+  if (!token) return res.status(401).send("Unauthorized");
+
   try {
-    const token = req.header('Authorization').replace('Bearer ', '');
     const decodedToken = await admin.auth().verifyIdToken(token);
     req.user = decodedToken;
     next();
   } catch (error) {
-    res.status(401).json({ error: 'Unauthorized' });
+    res.status(401).send("Unauthorized");
   }
 };
+
+module.exports = authMiddleware;
