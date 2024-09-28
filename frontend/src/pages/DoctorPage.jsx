@@ -17,6 +17,33 @@ import doc10 from '../assets/doctor10.jpg';
 import doc11 from '../assets/doctor11.jpg';
 import doc12 from '../assets/doctor12.png';
 import doc13 from '../assets/doctor13.jpg';
+import doc14 from "../assets/doctor14.png";
+import doc15 from "../assets/doctor15.png";
+import doc16 from "../assets/doctor16.png";
+import doc17 from "../assets/doctor17.png";
+import doc18 from "../assets/doctor18.png";
+import doc19 from "../assets/doctor19.png";
+import doc20 from "../assets/doctor20.png";
+import doc21 from "../assets/doctor21.png";
+import doc22 from "../assets/doctor22.png";
+import doc23 from "../assets/doctor23.png";
+import doc24 from "../assets/doctor24.png";
+import doc25 from "../assets/doctor25.png";
+import doc26 from "../assets/doctor26.png";
+import doc27 from "../assets/doctor27.png";
+import doc28 from "../assets/doctor28.png";
+import doc29 from "../assets/doctor29.png";
+import doc30 from "../assets/doctor30.png";
+import doc31 from "../assets/doctor31.png";
+import doc32 from "../assets/doctor32.png";
+import doc33 from "../assets/doctor33.png";
+import doc34 from "../assets/doctor34.png";
+import doc35 from "../assets/doctor35.png";
+import doc36 from "../assets/doctor36.png";
+import doc37 from "../assets/doctor37.png";
+import doc38 from "../assets/doctor38.png";
+import doc39 from "../assets/doctor39.png";
+import doc40 from "../assets/doctor40.png";
 // import doctors from './path-to-doctors-array'; 
 
 const doctors = [
@@ -26,47 +53,47 @@ const doctors = [
   { id: 4, name: "Dr. Diana", specialty: "Cardiology", fee: 450, img: doc4 },
   { id: 5, name: "Dr. Emma", specialty: "Cardiology", fee: 350, img: doc5 },
 
-  { id: 6, name: "Dr. Joe", specialty: "Dentist", fee: 300, img: doc9 },
+  { id: 6, name: "Dr. Frank", specialty: "Dentist", fee: 300, img: doc9 },
   { id: 7, name: "Dr. Nina", specialty: "Dentist", fee: 400, img: doc12 },
   { id: 8, name: "Dr. Michael", specialty: "Dentist", fee: 500, img: doc7 },
   { id: 9, name: "Dr. Sophie", specialty: "Dentist", fee: 450, img: doc13 },
   { id: 10, name: "Dr. Jack", specialty: "Dentist", fee: 350, img: doc11 },
 
-  { id: 11, name: "Dr. Mark", specialty: "Dermatology", fee: 300, img: doc10 },
-  { id: 12, name: "Dr. Bob", specialty: "Dermatology", fee: 400, img: doc2 },
-  { id: 13, name: "Dr. Jennie", specialty: "Dermatology", fee: 500, img: doc8 },
-  { id: 14, name: "Dr. Diana", specialty: "Dermatology", fee: 450, img: doc4 },
-  { id: 15, name: "Dr. Emma", specialty: "Dermatology", fee: 350, img: doc6 },
+  { id: 11, name: "Dr. Emily", specialty: "Dermatology", fee: 300, img: doc10 },
+  { id: 12, name: "Dr. Jace", specialty: "Dermatology", fee: 400, img: doc14 },
+  { id: 13, name: "Dr. Keith", specialty: "Dermatology", fee: 500, img: doc18 },
+  { id: 14, name: "Dr. Suresh", specialty: "Dermatology", fee: 450, img: doc19 },
+  { id: 15, name: "Dr. Priya", specialty: "Dermatology", fee: 350, img: doc20 },
 
-  { id: 16, name: "Dr. Mark", specialty: "Gynecology", fee: 300, img: doc1 },
-  { id: 17, name: "Dr. Bob", specialty: "Gynecology", fee: 400, img: doc5 },
-  { id: 18, name: "Dr. Jennie", specialty: "Gynecology", fee: 500, img: doc3 },
-  { id: 19, name: "Dr. Diana", specialty: "Gynecology", fee: 450, img: doc6 },
-  { id: 20, name: "Dr. Emma", specialty: "Gynecology", fee: 350, img: doc2 },
+  { id: 16, name: "Dr. Anushka", specialty: "Gynecology", fee: 300, img: doc22 },
+  { id: 17, name: "Dr. Shrikant", specialty: "Gynecology", fee: 400, img: doc23 },
+  { id: 18, name: "Dr. Priyanka", specialty: "Gynecology", fee: 500, img: doc24 },
+  { id: 19, name: "Dr. Rajesh", specialty: "Gynecology", fee: 450, img: doc25 },
+  { id: 20, name: "Dr. Palash", specialty: "Gynecology", fee: 350, img: doc26 },
 
-  { id: 21, name: "Dr. Mark", specialty: "Neurology", fee: 300, img: doc11 },
-  { id: 22, name: "Dr. Bob", specialty: "Neurology", fee: 400, img: doc2 },
-  { id: 23, name: "Dr. Jennie", specialty: "Neurology", fee: 500, img: doc13 },
-  { id: 24, name: "Dr. Diana", specialty: "Neurology", fee: 450, img: doc4 },
-  { id: 25, name: "Dr. Emma", specialty: "Neurology", fee: 350, img: doc13 },
+  { id: 21, name: "Dr. Prashant", specialty: "Neurology", fee: 300, img: doc27 },
+  { id: 22, name: "Dr. Claire", specialty: "Neurology", fee: 400, img: doc28 },
+  { id: 23, name: "Dr. Marwin", specialty: "Neurology", fee: 500, img: doc29 },
+  { id: 24, name: "Dr. Stella", specialty: "Neurology", fee: 450, img: doc30 },
+  { id: 25, name: "Dr. David", specialty: "Neurology", fee: 350, img: doc6 },
 
-  { id: 26, name: "Dr. Mark", specialty: "Orthopedics", fee: 300, img: doc1 },
-  { id: 27, name: "Dr. Bob", specialty: "Orthopedics", fee: 400, img: doc2 },
-  { id: 28, name: "Dr. Jennie", specialty: "Orthopedics", fee: 500, img: doc3 },
-  { id: 29, name: "Dr. Diana", specialty: "Orthopedics", fee: 450, img: doc4 },
-  { id: 30, name: "Dr. Emma", specialty: "Orthopedics", fee: 350, img: doc5 },
+  { id: 26, name: "Dr. Markus", specialty: "Orthopedics", fee: 300, img: doc8 },
+  { id: 27, name: "Dr. Matthews", specialty: "Orthopedics", fee: 400, img: doc15 },
+  { id: 28, name: "Dr. Caroline", specialty: "Orthopedics", fee: 500, img: doc16 },
+  { id: 29, name: "Dr. Judy", specialty: "Orthopedics", fee: 450, img: doc17 },
+  { id: 30, name: "Dr. Rashmi", specialty: "Orthopedics", fee: 350, img: doc21 },
 
-  { id: 31, name: "Dr. Mark", specialty: "Pediatrics", fee: 300, img: doc1 },
-  { id: 32, name: "Dr. Bob", specialty: "Pediatrics", fee: 400, img: doc2 },
-  { id: 33, name: "Dr. Jennie", specialty: "Pediatrics", fee: 500, img: doc3 },
-  { id: 34, name: "Dr. Diana", specialty: "Pediatrics", fee: 450, img: doc4 },
-  { id: 35, name: "Dr. Emma", specialty: "Pediatrics", fee: 350, img: doc5 },
+  { id: 31, name: "Dr. Tina", specialty: "Pediatrics", fee: 300, img: doc31 },
+  { id: 32, name: "Dr. Yash", specialty: "Pediatrics", fee: 400, img: doc32 },
+  { id: 33, name: "Dr. Rohan", specialty: "Pediatrics", fee: 500, img: doc33 },
+  { id: 34, name: "Dr. Joshua", specialty: "Pediatrics", fee: 450, img: doc34 },
+  { id: 35, name: "Dr. Karan", specialty: "Pediatrics", fee: 350, img: doc35 },
 
-  { id: 36, name: "Dr. Mark", specialty: "Psychiatry", fee: 300, img: doc1 },
-  { id: 37, name: "Dr. Bob", specialty: "Psychiatry", fee: 400, img: doc2 },
-  { id: 38, name: "Dr. Jennie", specialty: "Psychiatry", fee: 500, img: doc3 },
-  { id: 39, name: "Dr. Diana", specialty: "Psychiatry", fee: 450, img: doc4 },
-  { id: 40, name: "Dr. Emma", specialty: "Psychiatry", fee: 350, img: doc5 },
+  { id: 36, name: "Dr. Priya Sharma", specialty: "Psychiatry", fee: 300, img: doc36 },
+  { id: 37, name: "Dr. Amit Verma", specialty: "Psychiatry", fee: 400, img: doc37 },
+  { id: 38, name: "Dr. Neha Gupta", specialty: "Psychiatry", fee: 500, img: doc38 },
+  { id: 39, name: "Dr. Suman Joshi", specialty: "Psychiatry", fee: 450, img: doc39 },
+  { id: 40, name: "Dr. Alia Rao", specialty: "Psychiatry", fee: 350, img: doc40 },
 ];
 
 const specialties = ['All', 'Cardiology', 'Dermatology', 'Pediatrics', 'Neurology', 'Orthopedics', 'Psychiatry', 'Gynecology', 'Dentist'];
