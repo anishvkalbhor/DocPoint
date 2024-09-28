@@ -26,7 +26,7 @@ const doctors = [
   { id: 4, name: "Dr. Diana", specialty: "Cardiology", fee: 450, img: doc4 },
   { id: 5, name: "Dr. Emma", specialty: "Cardiology", fee: 350, img: doc5 },
 
-  { id: 6, name: "Dr. Joe", specialty: "Dentist", fee: 300, img: doc9 },
+  { id: 6, name: "Dr. Frank", specialty: "Dentist", fee: 300, img: doc9 },
   { id: 7, name: "Dr. Nina", specialty: "Dentist", fee: 400, img: doc12 },
   { id: 8, name: "Dr. Michael", specialty: "Dentist", fee: 500, img: doc7 },
   { id: 9, name: "Dr. Sophie", specialty: "Dentist", fee: 450, img: doc13 },
