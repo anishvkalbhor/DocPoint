@@ -14,6 +14,13 @@ const Calling = () => {
             const zc = ZegoUIKitPrebuilt.create(kitToken);
             zc.joinRoom({
                 container: element,
+                sharedLinks: [
+                    {
+                        name: 'Copy Link',
+                        url: `http://localhost:5173/room/${roomId}`,
+
+                    },
+                ],
                 scenario: {
                     mode: ZegoUIKitPrebuilt.OneOnNone,
                 },
