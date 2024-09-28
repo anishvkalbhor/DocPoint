@@ -17,6 +17,7 @@ import { MdAdminPanelSettings } from "react-icons/md";
 import { signOutUser } from "./firebase/auth";
 import DoctorForm from "./pages/DoctorForm";
 
+
 // const ProtectedRoute = ({children}) =>{
 //   const {isAuthenticated,user} = useAuthStore();
   
@@ -204,6 +205,7 @@ const App = () => {
           <Route path="/appointments" element={<UserAppointment />} />
           <Route path="/auth/login" element={<LoginPage />} />
           <Route path="/doctor" element={<DoctorPage />} />
+          <Route path="/doctors/:specialty" element={<DoctorPage />} />
           {/* <Route path="/admin" element={<AdminDashboard />} /> */}
           <Route path="/doctor/:id" element={<DoctorDetails />} />
           <Route path="/profile" element={<ProfilePage  />} />
