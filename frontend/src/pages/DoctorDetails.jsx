@@ -17,6 +17,7 @@ import doc5 from "../assets/doctor5.jpg";
 import doc6 from "../assets/doctor6.png";
 import doc7 from "../assets/doctor7.png";
 import doc8 from "../assets/doctor8.png";
+import doc14 from "../assets/doctor14.png"
 
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";

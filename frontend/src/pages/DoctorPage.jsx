@@ -8,6 +8,7 @@ import doc5 from '../assets/doctor5.jpg';
 import doc6 from '../assets/doctor6.png';
 import doc7 from '../assets/doctor7.png';
 import doc8 from '../assets/doctor8.png';
+import doc14 from "../assets/doctor14.png"
 
 const doctors = [
   { id: 1, name: 'Dr. Alice', specialty: 'Cardiology', fee: 500, img: doc1 },
