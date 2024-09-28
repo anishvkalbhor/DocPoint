@@ -8,6 +8,7 @@ import doc5 from '../assets/doctor5.jpg';
 import doc6 from '../assets/doctor6.png';
 import doc7 from '../assets/doctor7.png';
 import doc8 from '../assets/doctor8.png';
+import doc14 from "../assets/doctor14.png"
 
 const doctors = [
   { id: 1, name: 'Dr. Alice', specialty: 'Cardiology', fee: 500, img: doc1 },
@@ -18,9 +19,10 @@ const doctors = [
   { id: 6, name: 'Dr. Frank', specialty: 'Psychiatry', fee: 350, img: doc6 },
   { id: 7, name: 'Dr. Grace', specialty: 'Gynecology', fee: 500, img: doc7 },
   { id: 8, name: 'Dr. Drake', specialty: 'Neurology', fee: 500, img: doc8 },
+  { id: 9, name: 'Dr. Kimura', specialty: 'Dentist', fee: 500, img: doc14 },
 ];
 
-const specialties = ['All', 'Cardiology', 'Dermatology', 'Pediatrics', 'Neurology', 'Orthopedics', 'Psychiatry', 'Gynecology'];
+const specialties = ['All', 'Cardiology', 'Dermatology', 'Pediatrics', 'Neurology', 'Orthopedics', 'Psychiatry', 'Gynecology', 'Dentist'];
 
 const DoctorPage = () => {
   const [selectedSpecialty, setSelectedSpecialty] = useState('All');
@@ -95,6 +97,7 @@ export default DoctorPage;
 // import doc6 from "../assets/doctor6.png";
 // import doc7 from "../assets/doctor7.png";
 // import doc8 from "../assets/doctor8.png";
+// import doc14 from '../assets/doctor14.png';
 
 
 

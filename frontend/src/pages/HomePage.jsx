@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import doc1 from '../assets/doctor1.png';
 import doc2 from '../assets/doctor2.png';
 import doc3 from '../assets/doctor3.jpg';
@@ -6,9 +6,9 @@ import doc4 from '../assets/doctor4.png';
 import doc5 from '../assets/doctor5.jpg';
 import doc6 from '../assets/doctor6.png';
 import doc7 from '../assets/doctor7.png';
+import doc14 from '../assets/doctor14.png'
 
 const HomePage = () => {
-
   // Array of doctor specialties for the categories section
   const specialties = [
     { name: 'Cardiology', img: doc1 },
@@ -18,7 +18,19 @@ const HomePage = () => {
     { name: 'Orthopedics', img: doc5 },
     { name: 'Psychiatry', img: doc6 },
     { name: 'Gynecology', img: doc7 },
+    { name: 'Dentist', img: doc14 },
   ];
+
+  // Slideshow state and logic
+  const [currentSlide, setCurrentSlide] = useState(0);
+
+  // Automatically change slide every 3 seconds
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setCurrentSlide((prevSlide) => (prevSlide + 1) % specialties.length);
+    }, 3000); // Change slide every 3 seconds
+    return () => clearInterval(interval);
+  }, [specialties.length]);
 
   return (
     <div>
@@ -26,20 +38,20 @@ const HomePage = () => {
       <div
         className="flex h-screen bg-cover bg-center"
         style={{
-          backgroundImage: "url('/bckground.png')", // Adjust the image path as needed
+          backgroundImage: "url('/bckground.png')",
           backgroundSize: 'cover',
         }}
       >
         {/* Main Content */}
         <div className="flex-1 flex items-center justify-center bg-white-800 bg-opacity-1 p-4">
           {/* Banner Section */}
-          <div className="bg-purple-600 w-full max-w-5xl rounded-lg shadow-lg flex h-full animate-fade-in">
+          <div className="bg-purple-600 w-full max-w rounded-lg shadow-lg flex h-full animate-fade-in">
             {/* Left Side (Text Content) */}
             <div className="w-1/2 p-8 flex flex-col justify-center text-white">
-              <h1 className="text-5xl font-bold mb-4 animate-slide-up">YOUR HEALTH</h1>
-              <h1 className="text-5xl font-bold mb-4 animate-slide-up">IS OUR</h1>
-              <h1 className="text-5xl font-bold mb-6 animate-slide-up">PRIORITY</h1>
-              <button className="bg-red-500 text-white px-6 py-3 rounded hover:bg-red-600 mb-9 transform hover:scale-105 transition duration-500">
+              <h1 className="text-7xl font-bold mb-4 animate-slide-up">YOUR HEALTH</h1>
+              <h1 className="text-7xl font-bold mb-4 animate-slide-up">IS OUR</h1>
+              <h1 className="text-7xl font-bold mb-6 animate-slide-up">PRIORITY</h1>
+              <button className="bg-red-500 text-white px-2 py-3 rounded hover:bg-red-600 mb-9 transform hover:scale-105 transition duration-500">
                 Book Now!
               </button>
               <div className="flex items-center animate-slide-left">
@@ -65,14 +77,24 @@ const HomePage = () => {
                 </div>
               </div>
             </div>
-  
-            {/* Right Side (Image) */}
+
+            {/* Right Side (Framed Slideshow) */}
             <div className="w-1/2 h-full flex items-center justify-center">
-              <img
-                src="/docs.png"
-                alt="Healthcare Professional"
-                className="object-cover h-3/4 animate-fade-in-right"
-              />
+            <div className="border-4 border-gray-200 rounded-lg overflow-hidden w-3/4 h-3/4 px-12 py-9 relative">
+
+
+                {/* Slideshow */}
+                {specialties.map((specialty, index) => (
+                  <img
+                    key={index}
+                    src={specialty.img}
+                    alt={specialty.name}
+                    className={`absolute inset-0 w-full h-full object-cover transition-opacity duration-1000 ${
+                      index === currentSlide ? 'opacity-100' : 'opacity-0'
+                    }`}
+                  />
+                ))}
+              </div>
             </div>
           </div>
         </div>
@@ -83,15 +105,13 @@ const HomePage = () => {
         {/* Header */}
         <header className="mb-12">
           <h1 className="text-center text-5xl font-bold mb-4">Welcome to DocPoint</h1>
-          <p className="text-center text-xl">
-            Find the best doctors and book your appointment with ease.
-          </p>
+          <p className="text-center text-xl">Find the best doctors and book your appointment with ease.</p>
         </header>
 
         {/* Doctor Specialties Circular Cards */}
         <section className="container mx-auto">
           <h2 className="text-center text-4xl font-semibold mb-10">Browse by Specialties</h2>
-          
+
           <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-8">
             {specialties.map((specialty, index) => (
               <div key={index} className="relative bg-white rounded-lg shadow-lg overflow-hidden group transition-transform duration-300 transform hover:scale-105">
