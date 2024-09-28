@@ -72,14 +72,14 @@ const doctors = [
 
 const specialties = ['All', 'Cardiology', 'Dermatology', 'Pediatrics', 'Neurology', 'Orthopedics', 'Psychiatry', 'Gynecology', 'Dentist'];
 
-const DoctorDetailsPage = () => {
-  const { id } = useParams(); // Get the doctor's ID from the URL
-  const doctor = doctors.find((doc) => doc.id === parseInt(id)); // Find the doctor by ID
+// const DoctorDetailsPage = () => {
+//   const { id } = useParams(); // Get the doctor's ID from the URL
+//   const doctor = doctors.find((doc) => doc.id === parseInt(id)); // Find the doctor by ID
 
-  if (!doctor) {
-    return <p>Doctor not found!</p>;
-}
-}
+//   if (!doctor) {
+//     return <p>Doctor not found!</p>;
+// }
+// }
 const DoctorPage = () => {
   const { specialty } = useParams(); // Access the dynamic specialty parameter
   const navigate = useNavigate(); // To handle navigation
@@ -151,7 +151,7 @@ const DoctorPage = () => {
                 {doc.fee}
               </p>
               <div className="mt-4 text-center">
-                <Link to={`/doctor/${doc.id}`}>
+                <Link to={`/doctors-details/${doc.id}`}>
                   <motion.button
                     whileHover={{ scale: 1.05 }}
                     whileTap={{ scale: 0.95 }}
