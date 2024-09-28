@@ -61,7 +61,7 @@ const App = () => {
               </Link>
             </li>
             <li>
-              <Link to="/login">
+              <Link to="/auth/login">
                 <Button className="flex items-center bg-blue-600 hover:bg-blue-700 text-white">
                   <LogIn className="mr-2" size={20} />
                   <span>Login</span>
@@ -75,7 +75,7 @@ const App = () => {
         <Routes>
           <Route path="/" element={<HomePage />} />
           <Route path="/appointments" element={<UserAppointment />} />
-          <Route path="/login" element={<LoginPage />} />
+          <Route path="/auth/login" element={<LoginPage />} />
           <Route path="/doctor" element={<DoctorPage />} />
           <Route path="/admin" element={<AdminDashboard />} />
           <Route path="/doctor/:id" element={<DoctorDetails />} />
