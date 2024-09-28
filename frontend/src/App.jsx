@@ -6,6 +6,7 @@ import UserAppointment from "./pages/UserAppointment";
 import DoctorPage from "./pages/DoctorPage";
 import LoginPage from "./pages/LoginPage";
 import FormPage from "./pages/FormPage";
+import ProfilePage from "./pages/ProfilePage";
 
 import AdminDashboard from "./pages/AdminDashboard";
 import { Home, Calendar, LogIn } from "lucide-react";
@@ -49,7 +50,7 @@ const App = () => {
       <header className="flex justify-between items-center bg-gray-100 p-4 shadow-md">
         <div className="flex items-center">
           <Link to="/" className="text-2xl font-bold cursor-pointer">
-            <span className="text-blue-600">DOC</span>
+            <span className="text-purple-600">DOC</span>
             <span className="text-gray-800">POINT</span>
           </Link>
         </div>
