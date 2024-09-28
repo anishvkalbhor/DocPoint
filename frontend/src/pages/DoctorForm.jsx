@@ -1,10 +1,17 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { Form, FormControl } from "@/components/ui/form";
 import { Label } from "@radix-ui/react-label";
+import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
+import {
+    GenderOptions,
+    IdentificationTypes,
+    PatientFormDefaultValues,
+} from "@/constants";
 import { SelectItem } from "@/components/ui/select";
-import { FaUser, FaEnvelope, FaAddressCard, FaUserMd, FaFileAlt } from 'react-icons/fa';
-import { MdLocationOn, MdContactPhone } from 'react-icons/md';
+import { FaUser, FaEnvelope, FaBriefcase, FaAddressCard, FaShieldAlt, FaFileAlt, FaHandshake, FaCalendarAlt, FaVenusMars, FaAllergies, FaPills, FaUserFriends, FaHistory } from 'react-icons/fa';
+import { MdLocationOn, MdContactPhone, MdLocalHospital } from 'react-icons/md';
+
 import { toast, ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { useNavigate } from 'react-router-dom';
@@ -12,10 +19,29 @@ import { useNavigate } from 'react-router-dom';
 import CustomFormField, { FormFieldType } from "@/components/CustomFormField";
 import SubmitButton from "@/components/SubmitButton";
 import FileUploader from "@/components/FileUploader";
+import {  collection, addDoc, doc, getFirestore} from 'firebase/firestore';
+import { getStorage , ref, uploadBytes, getDownloadURL  } from 'firebase/storage';
+import { v4 as uuidv4 } from 'uuid';  
+import { AuthProvider } from '@/contexts/authContext'
+import { getAuth } from "firebase/auth";
+
+
+const db = getFirestore();
+const storage = getStorage();
+const auth = getAuth();
 
 const DoctorForm = () => {
   const [isLoading, setIsLoading] = useState(false);
   const navigate = useNavigate();
+
+
+  const uploadFile = async (file) => {
+    if (!file) return null; // If there's no file, return null
+    const storageRef = ref(storage, `identificationDocuments/${uuidv4()}-${file.name}`);  // Generate a unique path
+    await uploadBytes(storageRef, file);  // Upload the file to Firebase Storage
+    const downloadURL = await getDownloadURL(storageRef);  // Get the file's download URL
+    return downloadURL;
+  };
 
   const form = useForm({
     defaultValues: {

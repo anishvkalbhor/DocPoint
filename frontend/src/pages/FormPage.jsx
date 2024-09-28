@@ -1,18 +1,17 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { Form, FormControl } from "@/components/ui/form";
 import { Label } from "@radix-ui/react-label";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import {
-    Doctors,
     GenderOptions,
     IdentificationTypes,
     PatientFormDefaultValues,
 } from "@/constants";
 import { SelectItem } from "@/components/ui/select";
-import { FaUser, FaEnvelope, FaBriefcase, FaAddressCard, FaUserMd, FaShieldAlt, FaFileAlt, FaHandshake, FaCalendarAlt, FaVenusMars, FaAllergies, FaPills, FaUserFriends, FaHistory } from 'react-icons/fa';
+import { FaUser, FaEnvelope, FaBriefcase, FaAddressCard, FaShieldAlt, FaFileAlt, FaHandshake, FaCalendarAlt, FaVenusMars, FaAllergies, FaPills, FaUserFriends, FaHistory } from 'react-icons/fa';
 import { MdLocationOn, MdContactPhone, MdLocalHospital } from 'react-icons/md';
-import { RiHealthBookLine } from 'react-icons/ri';
+
 import { toast, ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { useNavigate } from 'react-router-dom';
@@ -20,20 +19,23 @@ import { useNavigate } from 'react-router-dom';
 import CustomFormField, { FormFieldType } from "@/components/CustomFormField";
 import SubmitButton from "@/components/SubmitButton";
 import FileUploader from "@/components/FileUploader";
-import { getFirestore, collection, addDoc, doc, setDoc } from 'firebase/firestore';
+import {  collection, addDoc, doc, getFirestore} from 'firebase/firestore';
 import { getStorage , ref, uploadBytes, getDownloadURL  } from 'firebase/storage';
 import { v4 as uuidv4 } from 'uuid';  
-import { AuthProvider ,useAuth } from '@/contexts/authContext'
+import { AuthProvider } from '@/contexts/authContext'
+import { getAuth } from "firebase/auth";
 
 
 
-const firestore = getFirestore();
+const db = getFirestore();
 const storage = getStorage();
+const auth = getAuth();
+
 
 
 const PatientContent = () => {
   const [isLoading, setIsLoading] = useState(false);
-  const { currentUser } = useAuth();
+  
   const navigate = useNavigate();
   
 
@@ -77,52 +79,58 @@ const PatientContent = () => {
   
     console.log("Form values:", values);
   
-    const { name, email, phone, date, gender, address, occupation, emergencyContactName, emergencyContactNumber, identificationType, identificationNumber, identificationDocument, ...medicalInfo } = values;
+    const { name, email, phone, date, gender, address, occupation, emergencyContactName, emergencyContactNumber, identificationType, identificationNumber, identificationDocument} = values;
   
     // Store patient details in Firestore
     const savePatient = async () => {
+        try {
+          const identificationDocumentUrl = await uploadFile(identificationDocument[0]);
+      
+          const user = auth.currentUser; // Get the user object from the auth context
+          if (!user) {
+            throw new Error("User is not authenticated");
+          }
+      
+          const userId = user.uid; // Get the user ID from the user object
 
-      try {
-        const identificationDocumentUrl = await uploadFile(identificationDocument[0]);
-  
-        const userId = currentUser.uid; // Get the user ID from the auth context
-  
-        // Step 3: Add patient details as a subcollection inside users/{userId}/patients
-        const userRef = doc(firestore, "users", userId); // Reference to the specific user document
-        const patientsRef = collection(userRef, "patients"); // Reference to the "patients" subcollection
-  
-        await addDoc(patientsRef, {
-          name: name,
-          email: email,
-          phone: phone,
-          dateOfBirth: date,
-          gender: gender,
-          address: address,
-          occupation: occupation,
-          emergencyContact: {
-            name: emergencyContactName,
-            phone: emergencyContactNumber,
-          },
-          identification: {
-            type: identificationType,
-            number: identificationNumber,
-            documentUrl: identificationDocumentUrl,  // Save the file URL in Firestore
-          },
-        });
-  
-        // Show success message
-        toast.success("Patient registered successfully!");
-        navigate("/");
-        setIsLoading(false);
-      } catch (error) {
-        console.error("Error saving patient data:", error);
-        toast.error("An error occurred. Please try again.");
-        setIsLoading(false);
-      }
-    };
-  
-    savePatient();
-  }
+          // The following line is where the error occurs if userId is not valid
+          const userRef = doc(db, "users", userId); // Reference to the specific user document
+          const patientsRef = collection(userRef, "patients"); // Reference to the patients subcollection
+      
+          await addDoc(patientsRef, {
+            name: name,
+            email: email,
+            phone: phone,
+            dateOfBirth: date,
+            gender: gender,
+            address: address,
+            occupation: occupation,
+            emergencyContact: {
+              name: emergencyContactName,
+              phone: emergencyContactNumber,
+            },
+            identification: {
+              type: identificationType,
+              number: identificationNumber,
+              documentUrl: identificationDocumentUrl,  // Save the file URL in Firestore
+            },
+          });
+    
+          // Show success message
+          toast.success("Patient registered successfully!");
+          navigate("/");
+          setIsLoading(false);
+        }
+        catch (error) {
+          console.error("Error saving patient data:", error);
+          toast.error("An error occurred while saving the patient data.");
+        } finally {
+          setIsLoading(false);
+        };
+        };
+        savePatient();
+      };
+      
 
   return (
     <div className="min-h-screen bg-gradient-to-r from-violet-100 to-indigo-100 py-12 px-4 sm:px-6 lg:px-8">
@@ -377,6 +385,7 @@ const PatientContent = () => {
     </div>
   );
 };
+
 
 export default function FormPage() {
   return (

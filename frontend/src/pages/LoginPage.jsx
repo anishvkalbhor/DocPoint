@@ -127,7 +127,7 @@ function LoginPageContent() {
         login(userData)
         // setUserRole(localUserRole);
         toast.success('Logged in with Google successfully!');
-        navigate(localUserRole === 'patient' ? '/registerform' : '/doctorform');
+        navigate(localUserRole === 'patient' ? '/patientform' : '/doctorform');
       }
       setIsUserLoggedIn(true);
     } catch (error) {
