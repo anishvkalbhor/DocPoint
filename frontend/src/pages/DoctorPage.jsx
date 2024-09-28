@@ -1,4 +1,6 @@
 import React, { useState, useEffect } from 'react';
+import { useParams, Link, useNavigate } from 'react-router-dom'; // Import useParams for dynamic routes
+import React, { useState, useEffect } from 'react';
 import { Link, useParams } from 'react-router-dom';
 import doc1 from '../assets/doctor1.png';
 import doc2 from '../assets/doctor2.png';
@@ -69,6 +71,20 @@ const doctors = [
 const specialties = ['All', 'Cardiology', 'Dermatology', 'Pediatrics', 'Neurology', 'Orthopedics', 'Psychiatry', 'Gynecology'];
 
 const DoctorPage = () => {
+  const { specialty } = useParams(); // Access the dynamic specialty parameter
+  const navigate = useNavigate(); // To handle navigation
+  const [filteredDoctors, setFilteredDoctors] = useState(doctors);
+
+  useEffect(() => {
+    if (specialty && specialty !== 'All') {
+      const filtered = doctors.filter((doc) => doc.specialty.toLowerCase() === specialty.toLowerCase());
+      setFilteredDoctors(filtered);
+    } else {
+      setFilteredDoctors(doctors); // Show all doctors if no specialty is selected
+    }
+  }, [specialty]);
+
+  const specialties = ['All', 'Cardiology', 'Dermatology', 'Pediatrics', 'Neurology', 'Orthopedics', 'Psychiatry', 'Gynecology'];
   const { specialty } = useParams(); // Capture the specialty from the route params
   const [selectedSpecialty, setSelectedSpecialty] = useState(specialty || 'All'); // Set initial state to match route param
 
@@ -89,20 +105,21 @@ const DoctorPage = () => {
 
         {/* Specialty Filters */}
         <div className="flex justify-center mb-8">
-          {specialties.map((specialty) => (
+          {specialties.map((spec) => (
             <button
-              key={specialty}
-              onClick={() => setSelectedSpecialty(specialty)}
+              key={spec}
+              onClick={() => navigate(`/doctors/${spec}`)} // Navigate to filtered specialty
               className={`px-4 py-2 m-2 rounded-full border-2 text-purple-900 ${
-                selectedSpecialty === specialty
+                specialty === spec
                   ? 'bg-purple-600 text-white border-purple-600'
                   : 'border-purple-600 hover:bg-purple-600 hover:text-white'
               } transition duration-300 ease-in-out`}
             >
-              {specialty}
+              {spec}
             </button>
           ))}
         </div>
+
 
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
           {filteredDoctors.map((doctor) => (

@@ -10,18 +10,8 @@ const Admin = () => {
   useEffect(() => {
     const fetchAppointments = async () => {
       try {
-        const data = await getDocs(
-          query(
-            collection(db, "appointments"),
-            orderBy("date", "desc"),
-            limit(10)
-          )
-        );
-        const appointmentList = data.docs.map((doc) => ({
-          id: doc.id,
-          ...doc.data(),
-        }));
-        setAppointments(data);
+        const data = await getDocs(query(collection(db, "appointments"), orderBy("date", "desc"), limit(10)));
+        const appointmentList = data.docs.map(doc => ({ id: doc.id, ...doc.data() }));        setAppointments(data);
       } catch (error) {
         console.error("Error fetching appointments:", error);
       }
