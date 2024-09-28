@@ -165,7 +165,11 @@ const App = () => {
           <Route path="/admin" element={<AdminDashboard />} />
           <Route path="/doctor/:specialty" element={<DoctorPage />} />
           {/* <Route path="/admin" element={<AdminDashboard />} /> */}
+<<<<<<< HEAD
           <Route path="/doctors/:id" element={<DoctorDetails />} />
+=======
+          <Route path="/doctors-details/:id" element={<DoctorDetails />} />
+>>>>>>> 34106dab36dd34d863530dd28140412f8236a599
           <Route path="/profile" element={<ProfilePage  />} />
           <Route path="/registerform" element={<FormPage />} />
           <Route path="/doctorform" element={<DoctorForm />} /> 
