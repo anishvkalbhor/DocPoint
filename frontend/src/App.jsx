@@ -170,7 +170,7 @@ const App = () => {
 
 
           <Route path="/profile" element={<ProfilePage  />} />
-          <Route path="/registerform" element={<FormPage />} />
+          <Route path="/patientform" element={<FormPage />} />
           <Route path="/doctorform" element={<DoctorForm />} /> 
 
 
