@@ -35,6 +35,7 @@ const PatientContent = () => {
   const [isLoading, setIsLoading] = useState(false);
   const { currentUser } = useAuth();
   const navigate = useNavigate();
+  
 
   const uploadFile = async (file) => {
     if (!file) return null; // If there's no file, return null
@@ -80,6 +81,7 @@ const PatientContent = () => {
   
     // Store patient details in Firestore
     const savePatient = async () => {
+
       try {
         const identificationDocumentUrl = await uploadFile(identificationDocument[0]);
   
@@ -146,6 +148,7 @@ const PatientContent = () => {
                 control={form.control}
                 name="name"
                 label="Full name"
+                value ='{}'
                 placeholder="Alister Fernandes"
                 icon={<FaUser className="text-violet-500" />}
               />
