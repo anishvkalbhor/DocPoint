@@ -6,19 +6,35 @@ const StatCard = ({ count = 0, label, icon, type }) => {
   return (
     <Card
       className={cn("stat-card", {
-        "bg-appointments": type === "appointments",
-        "bg-pending": type === "pending",
-        "bg-cancelled": type === "cancelled",
+        "bg-green-100": type === "appointments",
+        "bg-yellow-100": type === "pending",
+        "bg-red-100": type === "cancelled",
       })}
     >
-      <CardContent className="p-4">
-        <div className="flex items-center gap-4">
-          <div className="w-8 h-8">
-            {React.cloneElement(icon, { className: "w-full h-full" })}
+      <CardContent className="p-6">
+        <div className="flex items-center justify-between">
+          <div className="flex items-center gap-4">
+            <div className={cn("w-12 h-12 rounded-full flex items-center justify-center", {
+              "bg-green-200": type === "appointments",
+              "bg-yellow-200": type === "pending",
+              "bg-red-200": type === "cancelled",
+            })}>
+              {React.cloneElement(icon, { className: "w-6 h-6" })}
+            </div>
+            <div>
+              <h2 className={cn("text-4xl font-bold", {
+                "text-green-700": type === "appointments",
+                "text-yellow-700": type === "pending",
+                "text-red-700": type === "cancelled",
+              })}>{count}</h2>
+              <p className={cn("text-sm font-medium mt-1", {
+                "text-green-600": type === "appointments",
+                "text-yellow-600": type === "pending",
+                "text-red-600": type === "cancelled",
+              })}>{label}</p>
+            </div>
           </div>
-          <h2 className="text-3xl font-bold text-white">{count}</h2>
         </div>
-        <p className="text-sm">{label}</p>
       </CardContent>
     </Card>
   );
