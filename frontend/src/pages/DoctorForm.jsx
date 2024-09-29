@@ -9,7 +9,7 @@ import {
     PatientFormDefaultValues,
 } from "@/constants";
 import { SelectItem } from "@/components/ui/select";
-import { FaUser, FaEnvelope, FaBriefcase, FaAddressCard, FaShieldAlt, FaFileAlt, FaHandshake, FaCalendarAlt, FaVenusMars, FaAllergies, FaPills, FaUserFriends, FaHistory } from 'react-icons/fa';
+import { FaUserMd,FaUser, FaEnvelope, FaBriefcase, FaAddressCard, FaShieldAlt, FaFileAlt, FaHandshake, FaCalendarAlt, FaVenusMars, FaAllergies, FaPills, FaUserFriends, FaHistory } from 'react-icons/fa';
 import { MdLocationOn, MdContactPhone, MdLocalHospital } from 'react-icons/md';
 
 import { toast, ToastContainer } from 'react-toastify';
