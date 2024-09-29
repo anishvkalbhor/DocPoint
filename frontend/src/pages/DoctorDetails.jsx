@@ -630,7 +630,7 @@ const DoctorDetails = () => {
   const [appointmentDate, setAppointmentDate] = useState(new Date());
   const [timeSlot, setTimeSlot] = useState("");
   const [reason, setReason] = useState("");
-  const [isEmergency, setIsEmergency] = useState(false);
+  const [isOnline, setIsOnline] = useState(false);
 
   const handleBooking = () => {
     if (!appointmentDate || !timeSlot || !reason) {
@@ -791,11 +791,11 @@ const DoctorDetails = () => {
                 <input
                   type="checkbox"
                   className="w-5 h-5 mr-3"
-                  checked={isEmergency}
-                  onChange={() => setIsEmergency(!isEmergency)}
+                  checked={isOnline}
+                  onChange={() => setIsOnline(!isOnline)}
                 />
                 <label className="text-violet-900 font-semibold">
-                  Is this an emergency?
+                  Prefer Online Meet?
                 </label>
               </div>
 
