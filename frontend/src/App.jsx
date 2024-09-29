@@ -70,11 +70,11 @@ const App = () => {
 
   return (
     <BrowserRouter>
-      <header className="flex justify-between items-center bg-gray-100 p-4 shadow-md">
+      <header className="flex justify-between items-center bg-gradient-to-r from-purple-600 to-indigo-600 p-4 shadow-lg">
         <div className="flex items-center">
           <Link to="/" className="text-2xl font-bold cursor-pointer">
-            <span className="text-purple-600">DOC</span>
-            <span className="text-gray-800">POINT</span>
+            <span className="text-white">Doc</span>
+            <span className="text-yellow-400">Point</span>
           </Link>
         </div>
         <nav>
@@ -82,38 +82,38 @@ const App = () => {
             <li>
               <Link
                 to="/"
-                className="flex items-center text-gray-600 hover:text-blue-600 transition-colors"
+                className="flex items-center text-white hover:text-yellow-300 transition-colors font-semibold"
               >
-                <Home className="mr-2" size={20} />
-                <span>Home</span>
+                <Home className="mr-2 stroke-2" size={22} />
+                <span className="text-sm uppercase tracking-wide">Home</span>
               </Link>
             </li>
             <li>
               <Link
                 to="/doctor"
-                className="flex items-center text-gray-600 hover:text-blue-600 transition-colors"
+                className="flex items-center text-white hover:text-yellow-300 transition-colors font-semibold"
               >
-                <FaUserDoctor className="mr-2" size={20} />
-                <span>Doctors</span>
+                <FaUserDoctor className="mr-2" size={22} />
+                <span className="text-sm uppercase tracking-wide">Doctors</span>
               </Link>
             </li>
             <li>
               <Link
                 to="/appointments"
-                className="flex items-center text-gray-600 hover:text-blue-600 transition-colors"
+                className="flex items-center text-white hover:text-yellow-300 transition-colors font-semibold"
               >
-                <Calendar className="mr-2" size={20} />
-                <span>My Appointments</span>
+                <Calendar className="mr-2 stroke-2" size={22} />
+                <span className="text-sm uppercase tracking-wide">My Appointments</span>
               </Link>
             </li>
             {user ? (
               <li className="relative" ref={dropdownRef}>
                 <button
                   onClick={toggleDropdown}
-                  className="flex items-center text-gray-600 hover:text-blue-600 transition-colors"
+                  className="flex items-center text-white hover:text-yellow-300 transition-colors font-semibold"
                 >
-                  <FaUserCircle className="mr-2" size={20} />
-                  <span>{user.displayName}</span>
+                  <FaUserCircle className="mr-2" size={22} />
+                  <span className="text-sm uppercase tracking-wide">{user.displayName}</span>
                 </button>
                 {dropdownOpen && (
                   <div className="absolute right-0 mt-2 w-48 bg-white shadow-lg rounded-md z-10">
@@ -121,7 +121,7 @@ const App = () => {
                       <li>
                         <Link
                           to="/profile"
-                          className="block px-4 py-2 text-gray-700 hover:bg-gray-100"
+                          className="block px-4 py-2 text-gray-700 hover:bg-indigo-100 transition-colors"
                         >
                           View Full Profile
                         </Link>
@@ -129,13 +129,13 @@ const App = () => {
                       <li>
                         <Link
                           to="/appointments"
-                          className="block px-4 py-2 text-gray-700 hover:bg-gray-100"
+                          className="block px-4 py-2 text-gray-700 hover:bg-indigo-100 transition-colors"
                         >
                           My Appointments
                         </Link>
                       </li>
                       <li>
-                        <Link to="/auth/login" className="block w-full text-left px-4 py-2 text-gray-700 hover:bg-gray-100" onClick={handleLogout}>
+                        <Link to="/auth/login" className="block w-full text-left px-4 py-2 text-gray-700 hover:bg-indigo-100 transition-colors" onClick={handleLogout}>
                           Logout
                         </Link>
                       </li>
@@ -146,9 +146,9 @@ const App = () => {
             ) : (
               <li>
                 <Link to="/auth/login">
-                  <Button className="flex items-center bg-blue-600 hover:bg-blue-700 text-white">
-                    <LogIn className="mr-2" size={20} />
-                    <span>Login</span>
+                  <Button className="flex items-center bg-yellow-400 hover:bg-yellow-500 text-indigo-900 font-bold py-2 px-4 rounded-full transition-colors">
+                    <LogIn className="mr-2 stroke-2" size={20} />
+                    <span className="text-sm uppercase tracking-wide">Login</span>
                   </Button>
                 </Link>
               </li>
@@ -162,9 +162,8 @@ const App = () => {
           <Route path="/appointments" element={<UserAppointment />} />
           <Route path="/auth/login" element={<LoginPage />} />
           <Route path="/doctor" element={<DoctorPage />} />
-          <Route path="/admin" element={<AdminDashboard />} />
           <Route path="/doctor/:specialty" element={<DoctorPage />} />
-          {/* <Route path="/admin" element={<AdminDashboard />} /> */}
+          <Route path="/admin" element={<AdminDashboard />} />
 
           <Route path="/doctors/:id" element={<DoctorDetails />} />
 
