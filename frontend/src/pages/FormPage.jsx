@@ -95,7 +95,7 @@ const PatientContent = () => {
 
           // The following line is where the error occurs if userId is not valid
           const userRef = doc(db, "users", userId); // Reference to the specific user document
-          const patientsRef = collection(userRef, "patients"); // Reference to the patients subcollection
+          const patientsRef = collection(userRef, "patient"); // Reference to the patients subcollection
       
           await addDoc(patientsRef, {
             name: name,
