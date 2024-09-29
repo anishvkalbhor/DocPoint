@@ -21,24 +21,6 @@ const Admin = () => {
         return "bg-violet-50 text-violet-800";
     }
   };
-
-  // useEffect(() => {
-  //   const fetchAppointments = async () => {
-  //     try {
-  //       const data = await getDocs(query(collection(db, "appointments"), orderBy("date", "desc"), limit(10)));
-  //       const appointmentList = data.docs.map(doc => ({ id: doc.id, ...doc.data() }));        setAppointments(data);
-  //     } catch (error) {
-  //       console.error("Error fetching appointments:", error);
-  //     }
-  //   };
-
-  //   fetchAppointments();
-  // }, []);
-
-  // if (!appointments) {
-  //   return <p>Loading...</p>;
-  // }
-
   return (
     <div className={`w-full min-h-screen ${getThemeClass()} transition-colors duration-300 font-sans`}>
       <header className={`shadow-lg p-6 w-full transition-colors duration-300`}>
