@@ -105,7 +105,7 @@ const DoctorContent = () => {
     const saveDoctor = async () => {
       try {
         const photoUrl = await uploadPhoto(photoFile[0]);
-        const FileUrl = await uploadPhoto(registrationProof[0]);
+        const FileUrl = await uploadFile(registrationProof[0]);
     
         const user = auth.currentUser; // Get the user object from the auth context
         if (!user) {
