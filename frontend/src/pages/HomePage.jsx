@@ -165,21 +165,22 @@ const HomePage = () => {
           <MyMap />
         </div>
               {/* Footer */}
-      <footer className="bg-gradient-to-b from-indigo-600 to-purple-500 text-white py-5">
+      <footer className="flex justify-around bg-gradient-to-b from-indigo-600 to-purple-500 text-white py-5">
         <div className="container mx-auto flex flex-col md:flex-row justify-between items-center">
-          <div className="mb-4 md:mb-0">
-            <h4 className="text-xl font-bold">DocPoint</h4>
+          <div className="flex ml-5 mb-4 md:mb-0">
+            <h3 className="text-2xl font-bold text-white">Doc</h3>
+            <h3 className="text-2xl font-bold text-yellow-500">Point</h3>
           </div>
         
 
-          <div className="flex space-x-4">
+          <div className="flex space-x-4 text-gray-900">
             <Link to="/about" className="hover:underline">About Us</Link>
             <Link to="/contact" className="hover:underline">Contact</Link>
             <Link to="/privacy-policy" className="hover:underline">Privacy Policy</Link>
             <Link to="/terms-of-service" className="hover:underline">Terms of Service</Link>
           </div>
 
-          <div className="mt-4 md:mt-0 text-gray-400">
+          <div className="mt-4 md:mt-0 text-gray-900">
             &copy; {new Date().getFullYear()} DocPoint. All rights reserved.
           </div>
         </div>
