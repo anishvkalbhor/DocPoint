@@ -16,7 +16,7 @@ const UserAppointment = () => {
       onChange={(e) => setValue(e.target.value)}
       type= "text"
       placeholder='enter'
-    />
+      />
     <button  onClick= {handleJoinRoom}>Join</button>
     </div>
   )
