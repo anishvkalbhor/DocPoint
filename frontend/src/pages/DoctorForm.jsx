@@ -30,7 +30,7 @@ const db = getFirestore();
 const storage = getStorage();
 const auth = getAuth();
 
-const DoctorForm = () => {
+const DoctorContent = () => {
   const [isLoading, setIsLoading] = useState(false);
   const navigate = useNavigate();
 
@@ -213,4 +213,10 @@ const DoctorForm = () => {
   );
 };
 
-export default DoctorForm;
+export default function DoctorForm(){
+  return (
+    <AuthProvider>
+      <DoctorContent />
+    </AuthProvider>
+  );
+}

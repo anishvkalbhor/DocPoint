@@ -73,8 +73,8 @@ const App = () => {
       <header className="flex justify-between items-center bg-gradient-to-r from-purple-600 to-indigo-600 p-4 shadow-lg">
         <div className="flex items-center">
           <Link to="/" className="text-2xl font-bold cursor-pointer">
-            <span className="text-white">DOC</span>
-            <span className="text-yellow-300">POINT</span>
+            <span className="text-white">Doc</span>
+            <span className="text-yellow-400">Point</span>
           </Link>
         </div>
         <nav>
