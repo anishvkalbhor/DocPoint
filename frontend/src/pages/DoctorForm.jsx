@@ -2,46 +2,21 @@ import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { Form, FormControl } from "@/components/ui/form";
 import { Label } from "@radix-ui/react-label";
-import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
-import {
-    GenderOptions,
-    IdentificationTypes,
-    PatientFormDefaultValues,
-} from "@/constants";
-import { SelectItem } from "@/components/ui/select";
-import { FaUserMd,FaUser, FaEnvelope, FaBriefcase, FaAddressCard, FaShieldAlt, FaFileAlt, FaHandshake, FaCalendarAlt, FaVenusMars, FaAllergies, FaPills, FaUserFriends, FaHistory } from 'react-icons/fa';
-import { MdLocationOn, MdContactPhone, MdLocalHospital } from 'react-icons/md';
-
+import { FaUserMd, FaUser, FaEnvelope, FaAddressCard } from 'react-icons/fa';
+import { MdLocationOn, MdContactPhone } from 'react-icons/md';
 import { toast, ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { useNavigate } from 'react-router-dom';
-
 import CustomFormField, { FormFieldType } from "@/components/CustomFormField";
 import SubmitButton from "@/components/SubmitButton";
-import FileUploader from "@/components/FileUploader";
-import {  collection, addDoc, doc, getFirestore} from 'firebase/firestore';
-import { getStorage , ref, uploadBytes, getDownloadURL  } from 'firebase/storage';
-import { v4 as uuidv4 } from 'uuid';  
-import { AuthProvider } from '@/contexts/authContext'
-import { getAuth } from "firebase/auth";
-
+import { collection, addDoc, getFirestore } from 'firebase/firestore';
+import axios from 'axios'; // Import Axios for making API requests
 
 const db = getFirestore();
-const storage = getStorage();
-const auth = getAuth();
 
 const DoctorContent = () => {
   const [isLoading, setIsLoading] = useState(false);
   const navigate = useNavigate();
-
-
-  const uploadFile = async (file) => {
-    if (!file) return null; // If there's no file, return null
-    const storageRef = ref(storage, `identificationDocuments/${uuidv4()}-${file.name}`);  // Generate a unique path
-    await uploadBytes(storageRef, file);  // Upload the file to Firebase Storage
-    const downloadURL = await getDownloadURL(storageRef);  // Get the file's download URL
-    return downloadURL;
-  };
 
   const form = useForm({
     defaultValues: {
@@ -57,48 +32,67 @@ const DoctorContent = () => {
     },
   });
 
-  function onSubmit(values) {
+  // Function to geocode address using OpenStreetMap
+  const geocodeAddress = async (address) => {
+    try {
+      const response = await axios.get(`https://nominatim.openstreetmap.org/search`, {
+        params: {
+          q: address,
+          format: "json",
+          limit: 1,
+        },
+      });
+      if (response.data && response.data.length > 0) {
+        const { lat, lon } = response.data[0];
+        return { latitude: lat, longitude: lon };
+      } else {
+        throw new Error("No results found for the address");
+      }
+    } catch (error) {
+      console.error("Error fetching location:", error);
+      throw new Error("Failed to geocode address");
+    }
+  };
+
+  const onSubmit = async (values) => {
     setIsLoading(true);
-    console.log("Form submission started");
-    
-    const requiredFields = [
-      'name', 'email', 'photo', 'registrationNo', 'yearOfRegistration',
-      'registrationProof', 'medicalCouncil', 'address', 'mobileNo'
-    ];
 
-    const emptyFields = requiredFields.filter(field => !values[field]);
+    try {
+      // Geocode the address to get latitude and longitude
+      const { latitude, longitude } = await geocodeAddress(values.address);
+      console.log("Geocoded location:", latitude, longitude);
 
-    if (emptyFields.length > 0) {
-      console.log("Empty fields detected:", emptyFields);
-      toast.error(`Please fill in all required fields: ${emptyFields.join(', ')}`);
-      setIsLoading(false);
-      return;
+      // Save the doctor details along with latitude and longitude
+      await addDoc(collection(db, "doctors"), {
+        name: values.name,
+        email: values.email,
+        mobileNo: values.mobileNo,
+        address: values.address,
+        registrationNo: values.registrationNo,
+        yearOfRegistration: values.yearOfRegistration,
+        medicalCouncil: values.medicalCouncil,
+        location: {
+          lat: latitude,
+          lon: longitude,
+        },
+      });
+
+      toast.success("Doctor registered successfully!");
+      navigate('/');
+    } catch (error) {
+      console.error("Error during registration:", error);
+      toast.error("Failed to register doctor. Please try again.");
     }
 
-    console.log("Form values:", values);
-
-    // Simulating an API call
-    setTimeout(() => {
-      try {
-        // Simulating a successful submission
-        console.log("Form submitted successfully");
-        setIsLoading(false);
-        toast.success("Registration successful!");
-        navigate('/');
-      } catch (error) {
-        console.error("Error submitting form:", error);
-        toast.error("An error occurred. Please try again.");
-        setIsLoading(false);
-      }
-    }, 2000);
-  }
+    setIsLoading(false);
+  };
 
   const currentYear = new Date().getFullYear();
-  const years = Array.from({length: 50}, (_, i) => currentYear - i);
+  const years = Array.from({ length: 50 }, (_, i) => currentYear - i);
 
   return (
     <div className="min-h-screen bg-gradient-to-r from-violet-100 to-indigo-100 py-12 px-4 sm:px-6 lg:px-8">
-      <ToastContainer position="top-right" autoClose={5000} hideProgressBar={false} newestOnTop={false} closeOnClick rtl={false} pauseOnFocusLoss draggable pauseOnHover />
+      <ToastContainer position="top-right" autoClose={5000} />
       <div className="max-w-4xl mx-auto">
         <Form {...form}>
           <form
@@ -107,7 +101,6 @@ const DoctorContent = () => {
           >
             <section className="text-center space-y-4">
               <h1 className="text-5xl font-bold text-violet-800">Doctor Registration</h1>
-              <p className="text-xl text-violet-600">Please provide your professional details</p>
             </section>
 
             <section className="space-y-6">
@@ -157,7 +150,6 @@ const DoctorContent = () => {
               >
                 <SelectItem value="MCI">Medical Council of India (MCI)</SelectItem>
                 <SelectItem value="AIIMS">All India Institute of Medical Sciences (AIIMS)</SelectItem>
-                <SelectItem value="ICMR">Indian Council of Medical Research (ICMR)</SelectItem>
               </CustomFormField>
               <CustomFormField
                 fieldType={FormFieldType.INPUT}
@@ -173,39 +165,16 @@ const DoctorContent = () => {
                 name="yearOfRegistration"
                 label="Year of Registration"
                 placeholder="Select Year"
-                icon={<FaAddressCard className="text-violet-500" />}
               >
                 {years.map(year => (
                   <SelectItem key={year} value={year.toString()}>{year}</SelectItem>
                 ))}
               </CustomFormField>
-              <CustomFormField
-                fieldType={FormFieldType.SKELETON}
-                control={form.control}
-                name="registrationProof"
-                label="Proof of Registration"
-                renderSkeleton={(field) => (
-                  <FormControl>
-                    <FileUploader files={field.value} onChange={field.onChange} />
-                  </FormControl>
-                )}
-                icon={<FaFileAlt className="text-violet-500" />}
-              />
-              <CustomFormField
-                fieldType={FormFieldType.SKELETON}
-                control={form.control}
-                name="photo"
-                label="Profile Photo"
-                renderSkeleton={(field) => (
-                  <FormControl>
-                    <FileUploader files={field.value} onChange={field.onChange} />
-                  </FormControl>
-                )}
-                icon={<FaFileAlt className="text-violet-500" />}
-              />
             </section>
 
-            <SubmitButton isLoading={isLoading} className="w-full bg-gradient-to-r from-violet-600 to-indigo-600 hover:from-violet-700 hover:to-indigo-700 text-white text-xl py-4 rounded-xl transition duration-300 ease-in-out transform hover:scale-105 shadow-lg">Register</SubmitButton>
+            <SubmitButton isLoading={isLoading} className="w-full bg-gradient-to-r from-violet-600 to-indigo-600 text-white text-xl py-4 rounded-xl">
+              Register
+            </SubmitButton>
           </form>
         </Form>
       </div>
