@@ -9,7 +9,7 @@ import {
     PatientFormDefaultValues,
 } from "@/constants";
 import { SelectItem } from "@/components/ui/select";
-import { FaUserMd,FaUser, FaUserMd , FaEnvelope, FaBriefcase, FaAddressCard, FaShieldAlt, FaFileAlt, FaHandshake, FaCalendarAlt, FaVenusMars, FaAllergies, FaPills, FaUserFriends, FaHistory } from 'react-icons/fa';
+import { FaUser, FaUserMd, FaEnvelope, FaAddressCard, FaFileAlt, FaUserGraduate, FaDollarSign, FaBriefcase, FaBusinessTime } from 'react-icons/fa';
 import { MdLocationOn, MdContactPhone, MdLocalHospital } from 'react-icons/md';
 
 import { toast, ToastContainer } from 'react-toastify';
@@ -20,7 +20,7 @@ import CustomFormField, { FormFieldType } from "@/components/CustomFormField";
 import SubmitButton from "@/components/SubmitButton";
 import FileUploader from "@/components/FileUploader";
 import {  collection, addDoc, doc, getFirestore} from 'firebase/firestore';
-import { getStorage , ref, uploadBytesResumable , getDownloadURL  } from 'firebase/storage';
+import { getStorage , ref, uploadBytes , getDownloadURL  } from 'firebase/storage';
 import { v4 as uuidv4 } from 'uuid';  
 import { AuthProvider } from '@/contexts/authContext'
 import { getAuth } from "firebase/auth";
@@ -34,20 +34,19 @@ const DoctorContent = () => {
   const [isLoading, setIsLoading] = useState(false);
   const navigate = useNavigate();
 
-  const uploadFile = async (file) => {
+  
+
+  const uploadPhoto = async (file) => {
     if (!file) return null; // If there's no file, return null
-    const storageRef = ref(storage, `identificationDocuments/${uuidv4()}-${file.name}`);  // Generate a unique path
-    const uploadTask = uploadBytesResumable(storageRef, file);  // Upload the file to Firebase Storage
-    await uploadTask;  // Wait for the upload to complete
+    const storageRef = ref(storage, `profiles/${uuidv4()}-${file.name}`);  // Generate a unique path
+    await uploadBytes(storageRef, file);  // Upload the file to Firebase Storage
     const downloadURL = await getDownloadURL(storageRef);  // Get the file's download URL
     return downloadURL;
   };
-  
-  const uploadPhoto = async (file) => {
+  const uploadFile = async (file) => {
     if (!file) return null; // If there's no file, return null
-    const storageRef = ref(storage, `doctorPhotos/${uuidv4()}-${file.name}`);  // Generate a unique path
-    const uploadTask = uploadBytesResumable(storageRef, file);  // Upload the file to Firebase Storage
-    await uploadTask;  // Wait for the upload to complete
+    const storageRef = ref(storage, `files/${uuidv4()}-${file.name}`);  // Generate a unique path
+    await uploadBytes(storageRef, file);  // Upload the file to Firebase Storage
     const downloadURL = await getDownloadURL(storageRef);  // Get the file's download URL
     return downloadURL;
   };
@@ -57,15 +56,21 @@ const DoctorContent = () => {
     defaultValues: {
       name: "",
       email: "",
-      photoFile: null, // Initialize photoFile to null
+      photoFile: null,
       registrationNo: "",
       yearOfRegistration: "",
-      registrationProof: null, // Initialize registrationProof to null
+      registrationProof: null,
       medicalCouncil: "",
       address: "",
       mobileNo: "",
+      specialization: "",
+      qualification: "",
+      consultationFee: "",
+      experience: "",
+      workingHours: "",
     },
   });
+
 
   function onSubmit(values) {
     setIsLoading(true);
@@ -74,7 +79,10 @@ const DoctorContent = () => {
     const requiredFields = [
       'name', 'email', 'photoFile', 'registrationNo', 'yearOfRegistration',
       'registrationProof', 'medicalCouncil', 'address', 'mobileNo',
+      'specialization', 'qualification', 'consultationFee', 'experience', 'workingHours'
     ];
+
+
 
     const emptyFields = requiredFields.filter(field => !values[field]);
 
@@ -88,22 +96,16 @@ const DoctorContent = () => {
     console.log("Form values:", values);
   
     const {
-      name,
-      email,
-      photoFile,
-      address,
-      registrationNo,
-      yearOfRegistration,
-      registrationProof,
-      medicalCouncil,
-      mobileNo,
+      name, email, photoFile, address, registrationNo, yearOfRegistration, registrationProof,
+      medicalCouncil, mobileNo, specialization, qualification, consultationFee, experience, workingHours
     } = values;
+
 
     // Simulating an API call
     const saveDoctor = async () => {
       try {
-        const registrationProofUrl = await uploadFile(registrationProof);
-        const photoUrl = await uploadPhoto(photoFile);
+        const photoUrl = await uploadPhoto(photoFile[0]);
+        const FileUrl = await uploadPhoto(registrationProof[0]);
     
         const user = auth.currentUser; // Get the user object from the auth context
         if (!user) {
@@ -117,16 +119,10 @@ const DoctorContent = () => {
         const doctorsRef = collection(userRef, "doctor"); // Reference to the patients subcollection
     
         await addDoc(doctorsRef, {
-          name,
-          email,
-          photo: photoUrl,
-          address,
-          registrationNo,
-          yearOfRegistration,
-          registrationProof: registrationProofUrl,
-          medicalCouncil,
-          mobileNo,
+          name, email, photoFile: photoUrl, address, registrationNo, yearOfRegistration, registrationProof: FileUrl,
+          medicalCouncil, mobileNo, specialization, qualification, consultationFee, experience, workingHours
         });
+
   
         // Show success message
         toast.success("Doctor registered successfully!");
@@ -151,10 +147,7 @@ const DoctorContent = () => {
       <ToastContainer position="top-right" autoClose={5000} hideProgressBar={false} newestOnTop={false} closeOnClick rtl={false} pauseOnFocusLoss draggable pauseOnHover />
       <div className="max-w-4xl mx-auto">
         <Form {...form}>
-          <form
-            onSubmit={form.handleSubmit(onSubmit)}
-            className="space-y-8 bg-white shadow-2xl rounded-3xl p-8 sm:p-12"
-          >
+          <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8 bg-white shadow-2xl rounded-3xl p-8 sm:p-12">
             <section className="text-center space-y-4">
               <h1 className="text-5xl font-bold text-violet-800">Doctor Registration</h1>
               <p className="text-xl text-violet-600">Please provide your professional details</p>
@@ -162,9 +155,9 @@ const DoctorContent = () => {
 
             <section className="space-y-6">
               <h2 className="text-3xl font-semibold flex items-center text-violet-700 border-b pb-3">
-                <FaUserMd className="w-8 h-8 mr-3 text-violet-500" />
-                Doctor Information
+                <FaUserMd className="w-8 h-8 mr-3 text-violet-500" /> Doctor Information
               </h2>
+
               <CustomFormField
                 fieldType={FormFieldType.INPUT}
                 control={form.control}
@@ -181,6 +174,48 @@ const DoctorContent = () => {
                 placeholder="doctor@example.com"
                 icon={<FaEnvelope className="text-violet-500" />}
               />
+              <CustomFormField
+                fieldType={FormFieldType.INPUT}
+                control={form.control}
+                name="specialization"
+                label="Specialization"
+                placeholder="Cardiologist, Neurologist, etc."
+                icon={<FaUserGraduate className="text-violet-500" />}
+              />
+              <CustomFormField
+                fieldType={FormFieldType.INPUT}
+                control={form.control}
+                name="qualification"
+                label="Qualification"
+                placeholder="MBBS, MD, etc."
+                icon={<FaUserGraduate className="text-violet-500" />}
+              />
+              <CustomFormField
+                fieldType={FormFieldType.INPUT}
+                control={form.control}
+                name="consultationFee"
+                label="Consultation Fee"
+                placeholder="Fee in INR"
+                icon={<FaDollarSign className="text-violet-500" />}
+              />
+              <CustomFormField
+                fieldType={FormFieldType.INPUT}
+                control={form.control}
+                name="experience"
+                label="Experience (in years)"
+                placeholder="e.g., 10"
+                icon={<FaBriefcase className="text-violet-500" />}
+              />
+              <CustomFormField
+                fieldType={FormFieldType.INPUT}
+                control={form.control}
+                name="workingHours"
+                label="Working Hours"
+                placeholder="e.g., 9 AM - 5 PM"
+                icon={<FaBusinessTime className="text-violet-500" />}
+              />
+              
+              {/* Existing fields */}
               <CustomFormField
                 fieldType={FormFieldType.PHONE_INPUT}
                 control={form.control}
@@ -214,7 +249,7 @@ const DoctorContent = () => {
                 control={form.control}
                 name="registrationNo"
                 label="Registration Number"
-                placeholder="12345678"
+                placeholder="Medical Registration Number"
                 icon={<FaAddressCard className="text-violet-500" />}
               />
               <CustomFormField
@@ -253,6 +288,7 @@ const DoctorContent = () => {
                 )}
                 icon={<FaFileAlt className="text-violet-500" />}
               />
+
             </section>
 
             <SubmitButton isLoading={isLoading} className="w-full bg-gradient-to-r from-violet-600 to-indigo-600 hover:from-violet-700 hover:to-indigo-700 text-white text-xl py-4 rounded-xl transition duration-300 ease-in-out transform hover:scale-105 shadow-lg">Register</SubmitButton>
@@ -263,10 +299,13 @@ const DoctorContent = () => {
   );
 };
 
+
+
+
 export default function DoctorForm(){
   return (
     <AuthProvider>
       <DoctorContent />
     </AuthProvider>
-  );
+  );
 }
