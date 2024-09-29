@@ -1,18 +1,25 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { MapContainer, TileLayer, Marker, Popup } from 'react-leaflet';
 import 'leaflet/dist/leaflet.css';
 import L from 'leaflet';
-import { Hospital, BriefcaseMedical } from 'lucide-react';
+import { Hospital, BriefcaseMedical } from 'lucide-react'; // Assuming UserDoctorIcon is a custom icon for doctors
+import { User } from 'lucide-react';
+import { collection, getDocs, getFirestore } from 'firebase/firestore';
 
-// Meaningful icons for clinics, hospitals, and user's location
+// Meaningful icons for clinics, hospitals, doctors, and user's location
 const clinicIcon = new L.Icon({
   iconUrl: BriefcaseMedical, // Stethoscope icon
   iconSize: [30, 30],
 });
 
 const hospitalIcon = new L.Icon({
-  iconUrl: Hospital , // Hospital building icon
+  iconUrl: Hospital, // Hospital building icon
+  iconSize: [30, 30],
+});
+
+const doctorIcon = new L.Icon({
+  iconUrl: User, // Doctor icon
   iconSize: [30, 30],
 });
 
@@ -25,7 +32,10 @@ const MyMap = () => {
   const [position, setPosition] = useState([19.229, 72.854]); // Default position for Borivali (W), Mumbai
   const [clinics, setClinics] = useState([]); // Store fetched clinics
   const [hospitals, setHospitals] = useState([]); // Store fetched hospitals
+  const [doctors, setDoctors] = useState([]); // Store fetched doctors
   const [userLocation, setUserLocation] = useState(null); // Store user's current location
+
+  const db = getFirestore(); // Firestore instance
 
   // Fetch clinics and hospitals from Overpass API
   const fetchClinicsAndHospitals = async (lat, lon) => {
@@ -60,7 +70,20 @@ const MyMap = () => {
     }
   };
 
-  // Handle location access and search for clinics and hospitals
+  // Fetch doctors' locations from Firebase
+  const fetchDoctors = async () => {
+    try {
+      const doctorsCollection = collection(db, 'doctors');
+      const snapshot = await getDocs(doctorsCollection);
+      const fetchedDoctors = snapshot.docs.map(doc => doc.data());
+
+      setDoctors(fetchedDoctors); // Set doctors data
+    } catch (error) {
+      console.error('Error fetching doctors:', error);
+    }
+  };
+
+  // Handle location access and search for clinics, hospitals, and doctors
   const handleSearch = () => {
     if (navigator.geolocation) {
       navigator.geolocation.getCurrentPosition(
@@ -70,6 +93,7 @@ const MyMap = () => {
             setPosition([latitude, longitude]); // Update map center to user's location
             setUserLocation([latitude, longitude]); // Save user's current location
             fetchClinicsAndHospitals(latitude, longitude);  // Fetch nearby clinics and hospitals
+            fetchDoctors(); // Fetch doctors
           } else {
             console.error('Invalid latitude or longitude from geolocation');
           }
@@ -84,14 +108,18 @@ const MyMap = () => {
     }
   };
 
+  useEffect(() => {
+    fetchDoctors(); // Fetch doctors on initial render
+  }, []);
+
   return (
     <div className="w-full p-5 rounded-lg shadow-lg mx-auto bg-transparent">
-      <h2 className="text-2xl font-bold text-center mb-4 text-gray-800">Nearby Clinics & Hospitals Finder</h2>
+      <h2 className="text-2xl font-bold text-center mb-4 text-gray-800">Nearby Clinics, Hospitals & Doctors</h2>
       <button 
         onClick={handleSearch}
         className="mb-4 px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700 transition duration-300 w-full"
       >
-        Find Nearby Clinics & Hospitals
+        Find Nearby Clinics, Hospitals & Doctors
       </button>
       <MapContainer center={position} zoom={13} style={{ height: '400px', width: '100%' }} className="mb-4 rounded-lg shadow-xl">
         <TileLayer
@@ -127,6 +155,20 @@ const MyMap = () => {
                 <strong>Hospital:</strong> {hospital.tags.name || 'Unknown Name'}<br />
                 <strong>Address:</strong> {hospital.tags['addr:street'] || 'No address available'}<br />
                 <strong>ID:</strong> {hospital.id}
+              </Popup>
+            </Marker>
+          ) : null
+        ))}
+
+        {/* Display doctors */}
+        {doctors.map((doctor, index) => (
+          doctor.location?.lat && doctor.location?.lon ? (
+            <Marker key={index} position={[doctor.location.lat, doctor.location.lon]} icon={doctorIcon}>
+              <Popup>
+                <strong>Doctor:</strong> {doctor.name}<br />
+                <strong>Medical Council:</strong> {doctor.medicalCouncil}<br />
+                <strong>Year of Registration:</strong> {doctor.yearOfRegistration}<br />
+                <strong>Address:</strong> {doctor.address || 'No address available'}
               </Popup>
             </Marker>
           ) : null
