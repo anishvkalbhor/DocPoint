@@ -9,7 +9,7 @@ import {
     PatientFormDefaultValues,
 } from "@/constants";
 import { SelectItem } from "@/components/ui/select";
-import { FaUser, FaEnvelope, FaBriefcase, FaAddressCard, FaShieldAlt, FaFileAlt, FaHandshake, FaCalendarAlt, FaVenusMars, FaAllergies, FaPills, FaUserFriends, FaHistory } from 'react-icons/fa';
+import { FaUser, FaUserMd , FaEnvelope, FaBriefcase, FaAddressCard, FaShieldAlt, FaFileAlt, FaHandshake, FaCalendarAlt, FaVenusMars, FaAllergies, FaPills, FaUserFriends, FaHistory } from 'react-icons/fa';
 import { MdLocationOn, MdContactPhone, MdLocalHospital } from 'react-icons/md';
 
 import { toast, ToastContainer } from 'react-toastify';
@@ -20,7 +20,7 @@ import CustomFormField, { FormFieldType } from "@/components/CustomFormField";
 import SubmitButton from "@/components/SubmitButton";
 import FileUploader from "@/components/FileUploader";
 import {  collection, addDoc, doc, getFirestore} from 'firebase/firestore';
-import { getStorage , ref, uploadBytes, getDownloadURL  } from 'firebase/storage';
+import { getStorage , ref, uploadBytesResumable , getDownloadURL  } from 'firebase/storage';
 import { v4 as uuidv4 } from 'uuid';  
 import { AuthProvider } from '@/contexts/authContext'
 import { getAuth } from "firebase/auth";
@@ -34,23 +34,33 @@ const DoctorContent = () => {
   const [isLoading, setIsLoading] = useState(false);
   const navigate = useNavigate();
 
-
   const uploadFile = async (file) => {
     if (!file) return null; // If there's no file, return null
     const storageRef = ref(storage, `identificationDocuments/${uuidv4()}-${file.name}`);  // Generate a unique path
-    await uploadBytes(storageRef, file);  // Upload the file to Firebase Storage
+    const uploadTask = uploadBytesResumable(storageRef, file);  // Upload the file to Firebase Storage
+    await uploadTask;  // Wait for the upload to complete
     const downloadURL = await getDownloadURL(storageRef);  // Get the file's download URL
     return downloadURL;
   };
+  
+  const uploadPhoto = async (file) => {
+    if (!file) return null; // If there's no file, return null
+    const storageRef = ref(storage, `doctorPhotos/${uuidv4()}-${file.name}`);  // Generate a unique path
+    const uploadTask = uploadBytesResumable(storageRef, file);  // Upload the file to Firebase Storage
+    await uploadTask;  // Wait for the upload to complete
+    const downloadURL = await getDownloadURL(storageRef);  // Get the file's download URL
+    return downloadURL;
+  };
+  
 
   const form = useForm({
     defaultValues: {
       name: "",
       email: "",
-      photo: null,
+      photoFile: null, // Initialize photoFile to null
       registrationNo: "",
       yearOfRegistration: "",
-      registrationProof: null,
+      registrationProof: null, // Initialize registrationProof to null
       medicalCouncil: "",
       address: "",
       mobileNo: "",
@@ -62,8 +72,8 @@ const DoctorContent = () => {
     console.log("Form submission started");
     
     const requiredFields = [
-      'name', 'email', 'photo', 'registrationNo', 'yearOfRegistration',
-      'registrationProof', 'medicalCouncil', 'address', 'mobileNo'
+      'name', 'email', 'photoFile', 'registrationNo', 'yearOfRegistration',
+      'registrationProof', 'medicalCouncil', 'address', 'mobileNo',
     ];
 
     const emptyFields = requiredFields.filter(field => !values[field]);
@@ -76,22 +86,62 @@ const DoctorContent = () => {
     }
 
     console.log("Form values:", values);
+  
+    const {
+      name,
+      email,
+      photoFile,
+      address,
+      registrationNo,
+      yearOfRegistration,
+      registrationProof,
+      medicalCouncil,
+      mobileNo,
+    } = values;
 
     // Simulating an API call
-    setTimeout(() => {
+    const saveDoctor = async () => {
       try {
-        // Simulating a successful submission
-        console.log("Form submitted successfully");
-        setIsLoading(false);
-        toast.success("Registration successful!");
-        navigate('/');
-      } catch (error) {
-        console.error("Error submitting form:", error);
-        toast.error("An error occurred. Please try again.");
+        const registrationProofUrl = await uploadFile(registrationProof);
+        const photoUrl = await uploadPhoto(photoFile);
+    
+        const user = auth.currentUser; // Get the user object from the auth context
+        if (!user) {
+          throw new Error("User is not authenticated");
+        }
+    
+        const userId = user.uid; // Get the user ID from the user object
+
+        // The following line is where the error occurs if userId is not valid
+        const userRef = doc(db, "users", userId); // Reference to the specific user document
+        const doctorsRef = collection(userRef, "doctor"); // Reference to the patients subcollection
+    
+        await addDoc(doctorsRef, {
+          name,
+          email,
+          photo: photoUrl,
+          address,
+          registrationNo,
+          yearOfRegistration,
+          registrationProof: registrationProofUrl,
+          medicalCouncil,
+          mobileNo,
+        });
+  
+        // Show success message
+        toast.success("Doctor registered successfully!");
+        navigate("/");
         setIsLoading(false);
       }
-    }, 2000);
-  }
+      catch (error) {
+        console.error("Error saving doctor data:", error);
+        toast.error("An error occurred while saving the doctor data.");
+      } finally {
+        setIsLoading(false);
+      };
+      };
+      saveDoctor();
+    };
 
   const currentYear = new Date().getFullYear();
   const years = Array.from({length: 50}, (_, i) => currentYear - i);
@@ -194,7 +244,7 @@ const DoctorContent = () => {
               <CustomFormField
                 fieldType={FormFieldType.SKELETON}
                 control={form.control}
-                name="photo"
+                name="photoFile"
                 label="Profile Photo"
                 renderSkeleton={(field) => (
                   <FormControl>
