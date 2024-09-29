@@ -307,5 +307,5 @@ export default function DoctorForm(){
     <AuthProvider>
       <DoctorContent />
     </AuthProvider>
-  );
+);
 }
